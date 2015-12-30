@@ -3,14 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@mipmap/splash_background"
     tools:context=".activity.SplashActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/bt_splash_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="340dp"
+        android:background="@drawable/button"
+        android:paddingBottom="8dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="8dp"
+        android:text="Start Here"
+        android:textAllCaps="false"
+        android:textColor="@color/bt_textcolor_selector"
+        android:textSize="18sp"
+        android:onClick="toMainActivity"/>
+
+
+
 </RelativeLayout>
