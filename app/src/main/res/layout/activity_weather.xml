@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_weather_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/beijing">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginTop="17dip"
+            android:id="@+id/tv_weather_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/beijing"
+            android:textSize="20dip"
+            android:textColor="@color/colorWhite"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_marginTop="10dip"
+            android:layout_marginRight="10dip"
+            android:textColor="@color/bt_textcolor_selector"
+            android:text="搜索"
+            android:background="@drawable/button"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_weather_pm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Pm2.5:80\n良"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:textSize="18dp"/>
+        <TextView
+            android:id="@+id/tv_weather_maxmin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text=" 最高15°\n最低-5°"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:textSize="18dp"/>
+        <TextView
+            android:id="@+id/tv_weather_temperature"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="5℃"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:textSize="50dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_weather_listheader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="上拉  7天预报"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_weather_forecastweather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </ListView>
+</LinearLayout>

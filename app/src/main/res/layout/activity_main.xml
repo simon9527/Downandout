@@ -15,7 +15,7 @@
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
         android:paddingTop="8dp"
-        android:text="Connect network"
+        android:text="天气预报"
         android:textAllCaps="false"
         android:textColor="@color/bt_textcolor_selector"
         android:textSize="18sp"
