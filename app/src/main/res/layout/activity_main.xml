@@ -1,28 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.simonmeng.demo.activity.MainActivity">
-
-    <Button
-        android:id="@+id/bt_main_connect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/button"
-        android:paddingBottom="8dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:paddingTop="8dp"
-        android:text="天气预报"
-        android:textAllCaps="false"
-        android:textColor="@color/bt_textcolor_selector"
-        android:textSize="18sp"
-        android:onClick="connectNet"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/colorGray"
+    >
     <TextView
-        android:id="@+id/tv_main_weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:text="HOME"
+        android:textColor="@color/colorGreen"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+    <GridView
+        android:id="@+id/gv_main_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="0dp"
+        android:verticalSpacing="0dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
 
-</RelativeLayout>
+        android:gravity="center">
+    </GridView>
+</LinearLayout>
