@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.WeatherActivity"></activity>
+        <activity android:name=".activity.WeatherActivity" />
+        <activity android:name=".activity.NewsActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
     </application>
 
 </manifest>

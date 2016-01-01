@@ -1,5 +1,6 @@
 package com.simonmeng.demo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
         gridview.setAdapter(new HomeAdapter());
     }
 
+    public void onClick(View view){
+        Intent intent = new Intent();
+        intent.setClass(this,NewsActivity.class);
+        startActivity(intent);
+    }
     private class HomeAdapter extends BaseAdapter {
         int[] imageId = { R.mipmap.a, R.mipmap.b, R.mipmap.c, R.mipmap.d, R.mipmap.e, R.mipmap.f, R.mipmap.g, R.mipmap.h,};
 

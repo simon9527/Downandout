@@ -2,15 +2,19 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@color/colorGray"
+    android:background="@color/colorWhite"
     >
     <TextView
-        android:text="HOME"
+        android:text="Home"
         android:textColor="@color/colorGreen"
         android:textSize="20dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="30dp" />
+    <Button
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <GridView
         android:id="@+id/gv_main_menu"
         android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@mipmap/beijing">
+    android:background="@mipmap/city_changchun">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="380dp"
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="Pm2.5:80\n良"
+            android:text="Pm2.5:30\n良好"
             android:textColor="@color/colorWhite"
             android:gravity="center"
             android:textSize="18dp"/>
@@ -48,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text=" 最高15°\n最低-5°"
+            android:text="Max ↑35°\nMix ↓-5°"
             android:textColor="@color/colorWhite"
             android:gravity="center"
             android:textSize="18dp"/>
@@ -57,10 +57,11 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="5℃"
+            android:layout_marginRight="5dp"
+            android:text="25°C"
             android:textColor="@color/colorWhite"
             android:gravity="center"
-            android:textSize="50dp"/>
+            android:textSize="40dp"/>
 
     </LinearLayout>
     <LinearLayout
