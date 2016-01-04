@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view){
         Intent intent = new Intent();
-        intent.setClass(this,NewsActivity.class);
+        intent.setClass(this,WeatherActivity.class);
         startActivity(intent);
     }
     private class HomeAdapter extends BaseAdapter {

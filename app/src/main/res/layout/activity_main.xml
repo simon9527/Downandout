@@ -1,29 +1,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     android:background="@color/colorWhite"
-    >
+    android:orientation="vertical">
+
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
         android:text="Home"
         android:textColor="@color/colorGreen"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:textSize="20dp" />
+
     <Button
-        android:onClick="onClick"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="onClick" />
+
     <GridView
         android:id="@+id/gv_main_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:horizontalSpacing="0dp"
-        android:verticalSpacing="0dp"
         android:numColumns="2"
         android:stretchMode="columnWidth"
 
-        android:gravity="center">
-    </GridView>
+        android:verticalSpacing="0dp"></GridView>
 </LinearLayout>

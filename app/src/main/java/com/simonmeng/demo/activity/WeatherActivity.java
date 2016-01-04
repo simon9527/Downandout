@@ -11,11 +11,15 @@ import com.baidu.apistore.sdk.ApiStoreSDK;
 import com.baidu.apistore.sdk.network.Parameters;
 import com.simonmeng.demo.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class WeatherActivity extends AppCompatActivity {
     TextView tv_weather_location;
     TextView tv_weather_temperature;
     TextView tv_weather_pm;
     TextView tv_weather_maxmin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +35,13 @@ public class WeatherActivity extends AppCompatActivity {
         tv_weather_maxmin.setTypeface(face);
         tv_weather_temperature.setTypeface(face);
         //bt_splash_start.setTransformationMethod(null);
+        quaryWeather();
 
     }
 
     public void quaryWeather(){
         Parameters para = new Parameters();
-        para.put("city", "北京");
+        para.put("city", "沈阳");
         ApiStoreSDK.execute("http://apis.baidu.com/heweather/weather/free",
                 ApiStoreSDK.GET,
                 para,
@@ -44,8 +49,15 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int status, String responseString) {
                         Log.i("sdkdemo", "onSuccess");
+                        //Gson解析服务器返回的json数据---responseString
 
-                        tv_weather_location.setText(responseString);
+                       // JSONObject jsonObject = new JSONObject(responseString);
+                        try {
+                            JSONObject jsonObject = new JSONObject(responseString);
+                            tv_weather_location.setText("123");
+                        }catch (JSONException jsonException){
+                            jsonException.printStackTrace();
+                        }
                     }
 
                     @Override

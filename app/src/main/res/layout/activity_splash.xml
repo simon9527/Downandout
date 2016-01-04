@@ -13,6 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="340dp"
         android:background="@drawable/button"
+        android:onClick="toMainActivity"
         android:paddingBottom="8dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
@@ -20,9 +21,7 @@
         android:text="Start Here"
         android:textAllCaps="false"
         android:textColor="@color/bt_textcolor_selector"
-        android:textSize="18sp"
-        android:onClick="toMainActivity"/>
-
+        android:textSize="18sp" />
 
 
 </RelativeLayout>
