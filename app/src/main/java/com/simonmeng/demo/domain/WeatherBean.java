@@ -23,7 +23,6 @@ public class WeatherBean {
         public City city;
     }
     public class Basic{
-        //这里六位小数点可能是double或者float
         public String city;
         public String cnty;
         public String id;
@@ -114,8 +113,6 @@ public class WeatherBean {
         public int spd;
     }
 
-
-    //属于now
 
     //属于suggestion
     public class Comf{

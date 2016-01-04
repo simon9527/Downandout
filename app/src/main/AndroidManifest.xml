@@ -23,8 +23,16 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.WeatherActivity" />
-        <activity android:name=".activity.NewsActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+        <activity
+            android:name=".activity.NewsActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".activity.DownloadActivity" />
+        <activity android:name=".activity.VideoOnlineActivity" />
+        <activity android:name=".activity.RecipeActivity" />
+        <activity android:name=".activity.GalleryActivity" />
+        <activity android:name=".activity.AboutMeActivity" />
+        <activity android:name=".activity.StandbyActivity" />
+        <activity android:name=".activity.SearchWeatherActivity"></activity>
     </application>
 
 </manifest>

@@ -27,6 +27,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dip"
             android:layout_marginTop="10dip"
+            android:onClick="searchWeather"
             android:background="@drawable/button"
             android:text="搜索"
             android:textColor="@color/bt_textcolor_selector" />

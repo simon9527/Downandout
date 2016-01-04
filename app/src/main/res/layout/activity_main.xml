@@ -8,15 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:gravity="center"
-        android:text="Home"
+        android:text="功能 演示"
         android:textColor="@color/colorGreen"
-        android:textSize="20dp" />
+        android:textSize="25dp" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="onClick" />
-
+   
     <GridView
         android:id="@+id/gv_main_menu"
         android:layout_width="match_parent"
