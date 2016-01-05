@@ -2,15 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FFFFFF"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context="com.simonmeng.demo.activity.SearchWeatherActivity">
 
     <EditText
         android:id="@+id/et_searchweather_location"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/edittext"
+        android:textColor="@color/colorGreen"
         android:hint="请输入城市名"/>
     <Button
         android:layout_marginTop="40dp"
@@ -19,7 +25,7 @@
         android:layout_gravity="center"
         android:background="@drawable/button"
         android:textColor="@color/bt_textcolor_selector"
-        android:text="搜索"
+        android:text="天气查询"
         android:onClick="sendLocation"/>
 
 </LinearLayout>

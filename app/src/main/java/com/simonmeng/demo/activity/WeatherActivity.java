@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.apistore.sdk.ApiCallBack;
@@ -17,6 +18,7 @@ import com.simonmeng.demo.R;
 import com.simonmeng.demo.domain.WeatherBean;
 
 public class WeatherActivity extends AppCompatActivity {
+    private String tag = "WeatherActivity";
     private SharedPreferences sp;
     private String weather_location;
     private int weather_pm;
@@ -25,6 +27,7 @@ public class WeatherActivity extends AppCompatActivity {
     private int min;
     private int tmp;
 
+    LinearLayout ll_weather_background;
     TextView tv_weather_location;
     TextView tv_weather_temperature;
     TextView tv_weather_pm;
@@ -38,6 +41,7 @@ public class WeatherActivity extends AppCompatActivity {
         tv_weather_temperature = (TextView) findViewById(R.id.tv_weather_temperature);
         tv_weather_pm = (TextView) findViewById(R.id.tv_weather_pm);
         tv_weather_maxmin = (TextView) findViewById(R.id.tv_weather_maxmin);
+        ll_weather_background = (LinearLayout) findViewById(R.id.ll_weather_background);
 
         //设置字体，typeface字体。
         Typeface face = Typeface.createFromAsset(getAssets(), "deftone stylus.ttf");
@@ -52,11 +56,23 @@ public class WeatherActivity extends AppCompatActivity {
 
     }
 
+    //获取搜索界面用户输入的城市名，startActivityForResult开启，onActivityResult获取结果
     public void searchWeather(View view){
         Intent intent = new Intent();
         intent.setClass(WeatherActivity.this,SearchWeatherActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,0);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        if(data != null){
+            weather_location= data.getStringExtra("inputLocation");
+            getDefaultWeather(weather_location);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     public void getDefaultWeather(String location) {
         Parameters para = new Parameters();
@@ -68,6 +84,9 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int status, String responseString) {
                         Log.i("sdkdemo", "onSuccess");
+
+
+
                         //Gson解析服务器返回的json数据---responseString
                         String cityWeather = responseString.replace("HeWeather data service 3.0","CityWeather");
                         System.out.print(cityWeather);
@@ -84,7 +103,32 @@ public class WeatherActivity extends AppCompatActivity {
                         tv_weather_maxmin.setText("Max ↑"+max+"°\n  Mix ↓"+min+"°");
                         tv_weather_temperature.setText(tmp+"°C");
 
+                        //获取城市的id，去掉前两位的字母，剩下的都是数字，可以通过switch判断，来设置背景
+                        int cityid = Integer.parseInt(bean.CityWeather.get(0).basic.id.substring(2));
+                        System.out.println(cityid);
+                        Log.i(tag,cityid+"");
+                        switch (cityid){
+                            case 101010100://北京
+                                ll_weather_background.setBackgroundResource(R.mipmap.city_beijing);
+                                break;
+                            case 101070101://沈阳
+                                ll_weather_background.setBackgroundResource(R.mipmap.city_shenyang);
+                                break;
+                            case 101060101://长春
+                                ll_weather_background.setBackgroundResource(R.mipmap.city_changchun);
+                                break;
+                            case 101050101://哈尔滨
+                                ll_weather_background.setBackgroundResource(R.mipmap.city_haerbin);
+                                break;
+                            case 101020100://上海
+                                ll_weather_background.setBackgroundResource(R.mipmap.city_shanghai);
+                                break;
 
+
+                            default://默认
+                                ll_weather_background.setBackgroundResource(R.mipmap.city_default);
+                                break;
+                        }
 
 
 
