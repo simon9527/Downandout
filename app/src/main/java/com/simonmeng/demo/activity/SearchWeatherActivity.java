@@ -1,6 +1,7 @@
 package com.simonmeng.demo.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.simonmeng.demo.R;
 
 public class SearchWeatherActivity extends AppCompatActivity {
 
+    private SharedPreferences sp;
     private EditText et_searchweather_location;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +28,8 @@ public class SearchWeatherActivity extends AppCompatActivity {
         String inputLocation = et_searchweather_location.getText().toString();
 
         Intent intent = new Intent();
-        intent.putExtra("inputLocation",inputLocation);
-        setResult(0,intent);
-
+        intent.putExtra("inputLocation", inputLocation);
+        setResult(0, intent);
 
         //用户点击搜索，关闭该页面，跳转到天气预报界面
         finish();

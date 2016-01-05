@@ -8,7 +8,7 @@ public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
-        // TODO 您的其他初始化流程
+        // 您的其他初始化流程
         ApiStoreSDK.init(this, "70cceff1ddfa11c873baefb4ed264850");
         super.onCreate();
     }
