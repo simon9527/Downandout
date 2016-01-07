@@ -1,12 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_standby_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.simonmeng.demo.activity.StandbyActivity">
+    android:background="@mipmap/city_beijing"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_standby_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dip"
+            android:text="@string/beijing"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dip" />
+
+        <Button
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:onClick="searchWeather"
+            android:background="@drawable/button"
+            android:text="搜索"
+            android:textColor="@color/bt_textcolor_selector" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_standby_listheader"
+        android:layout_gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="300dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_standby_pm"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Pm2.5:30\n良好"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_standby_maxmin"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Max ↑35°\nMix ↓-5°"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tv_standby_temperature"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="25°C"
+            android:textColor="@color/colorWhite"
+            android:textSize="40dp" />
+
+    </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/lv_standby_forecastweather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="#00000000"
+            android:scrollbars="none">
+        </ListView>
+
+
+</LinearLayout>
