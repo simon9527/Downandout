@@ -25,7 +25,7 @@ public class SearchWeatherActivity extends AppCompatActivity {
 
     //返回用户输入的城市
     public void sendLocation(View view){
-        String inputLocation = et_searchweather_location.getText().toString();
+        String inputLocation = et_searchweather_location.getText().toString().trim();
 
         Intent intent = new Intent();
         intent.putExtra("inputLocation", inputLocation);

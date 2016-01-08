@@ -152,7 +152,33 @@ public class WeatherActivity extends AppCompatActivity {
                                     ll_weather_background.setBackgroundResource(R.mipmap.city_default);
                                     break;
                             }
-                        } else{//情况1：status是"unknown city"；情况2：三线城市没有aqi
+                        }
+                        else if(statue.equalsIgnoreCase("ok") && aqi==null){
+                            //二线城市
+                            weather_location = bean.CityWeather.get(0).basic.city;
+                            max = bean.CityWeather.get(0).daily_forecast.get(0).tmp.max;
+                            min = bean.CityWeather.get(0).daily_forecast.get(0).tmp.min;
+                            tmp = bean.CityWeather.get(0).now.tmp;
+                            tv_weather_location.setText(weather_location);
+                            tv_weather_pm.setText("Pm2.5:" + weather_pm + "\n null");
+                            tv_weather_maxmin.setText("Max ↑" + max + "°\n  Mix ↓" + min + "°");
+                            tv_weather_temperature.setText(tmp + "°C");
+                            Log.i("sdkdemo", "onSuccess");
+                            System.out.println(bean.CityWeather.get(0).daily_forecast.get(1).tmp.max+"");
+                            WeatherForcastAdapter WeatherForcastAdapter = new WeatherForcastAdapter();
+                            //2.3之后取出顶部底部的阴影，2.3之前xml中android:fadingEdge="none"即可
+                            lv_weather_forecastweather.setOverScrollMode(View.OVER_SCROLL_NEVER);
+                            lv_weather_forecastweather.setAdapter(WeatherForcastAdapter);
+                            //获取城市的id，去掉前两位的字母，剩下的都是数字，可以通过switch判断，来设置背景
+                            int cityid = Integer.parseInt(bean.CityWeather.get(0).basic.id.substring(2));
+                            String location = bean.CityWeather.get(0).basic.city;
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("location", location);
+                            editor.commit();
+                            Log.i(tag, cityid + "");
+                            ll_weather_background.setBackgroundResource(R.mipmap.city_default);
+                        }
+                        else{//情况1：status是"unknown city"；情况2：三线城市没有aqi
                             Toast.makeText(WeatherActivity.this,"没有查到该城市",Toast.LENGTH_LONG).show();
                             NoWeaherAdapter noWeaherAdapter = new NoWeaherAdapter();
                             lv_weather_forecastweather.setAdapter(noWeaherAdapter);

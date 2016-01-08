@@ -1,6 +1,7 @@
 package com.simonmeng.demo.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView tv_mainhead_title = (TextView) findViewById(R.id.tv_mainhead_title);
+        TextView tv_mainhead_category = (TextView) findViewById(R.id.tv_mainhead_category);
+        Typeface face = Typeface.createFromAsset(getAssets(), "Walkway Bold.ttf");
+        tv_mainhead_title.setTypeface(face);
+        tv_mainhead_category.setTypeface(face);
 
         GridView gridview = (GridView) findViewById(R.id.gv_main_menu);
         gridview.setAdapter(new HomeAdapter());
