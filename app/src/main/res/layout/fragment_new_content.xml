@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_fragment_news_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+    </android.support.v4.view.ViewPager>
+
+    <RadioGroup
+        android:id="@+id/rg_fragment_news_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="@color/Black"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rb_news_content_main"
+            style="@style/news_button_style"
+            android:drawableTop="@drawable/news_mainbutton_bg"
+            android:text="main"/>
+        <RadioButton
+            android:id="@+id/rb_news_content_sport"
+            style="@style/news_button_style"
+            android:drawableTop="@mipmap/news_sp"
+            android:text="sport"/>
+        <RadioButton
+            android:id="@+id/rb_news_content_finance"
+            style="@style/news_button_style"
+            android:drawableTop="@mipmap/news_fi"
+            android:text="finance"/>
+        <RadioButton
+            android:id="@+id/rb_news_content_music"
+            style="@style/news_button_style"
+            android:drawableTop="@mipmap/news_mu"
+            android:text="music"/>
+
+    </RadioGroup>
+</LinearLayout>

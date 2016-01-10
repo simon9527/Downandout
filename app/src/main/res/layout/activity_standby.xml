@@ -3,7 +3,7 @@
     android:id="@+id/ll_standby_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/city_beijing"
+    android:background="#000000"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"

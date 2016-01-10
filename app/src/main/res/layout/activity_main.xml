@@ -43,16 +43,17 @@
            android:id="@+id/gv_main_menu"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           android:layout_marginLeft="6dp"
-           android:layout_marginRight="6dp"
-           android:layout_marginTop="6dp"
+           android:numColumns="2"
+           android:padding="6dp"
            android:gravity="center"
            android:horizontalSpacing="3dp"
+           android:verticalSpacing="3dp"
            android:listSelector="#00000000"
-           android:numColumns="2"
            android:scrollbars="none"
            android:stretchMode="columnWidth"
-           android:verticalSpacing="3dp"></GridView>
+           android:fadingEdge="none"
+           android:fadingEdgeLength="0dp"
+           android:overScrollMode="never"></GridView>
        <ImageView
            android:layout_width="50dp"
            android:layout_height="50dp"
@@ -61,8 +62,7 @@
            android:src="@mipmap/s"
            android:layout_alignParentRight="true"
            android:layout_marginRight="10dp"
-           android:layout_marginTop="110dp"
-           />
+           android:layout_marginTop="110dp"/>
    </RelativeLayout>
 
 </LinearLayout>

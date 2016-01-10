@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F0FFEB3B"
+        android:background="#F8727272"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_item_weatherforcast_date"
@@ -17,7 +17,7 @@
             android:singleLine="true"
             android:text="2016-01-07"
             android:textSize="20dp"
-            android:textColor="@color/colorGreen"
+            android:textColor="@color/colorWhite"
             android:gravity="center"/>
         <TextView
             android:id="@+id/tv_item_weatherforcast_max"
@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:text="Max ↑35°"
             android:textSize="20dp"
-            android:textColor="@color/colorGreen"
+            android:textColor="@color/colorWhite"
             android:gravity="center"/>
         <TextView
             android:id="@+id/tv_item_weatherforcast_min"
@@ -35,7 +35,7 @@
             android:layout_weight="1"
             android:text="Mix ↓-5°"
             android:textSize="20dp"
-            android:textColor="@color/colorGreen"
+            android:textColor="@color/colorWhite"
             android:gravity="center"/>
     </LinearLayout>
 

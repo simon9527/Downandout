@@ -8,9 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
+    <style name="CustomActivityTheme">
+        <item name="android:windowAnimationStyle">@style/AlphaMyWindowAnimTheme</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="AlphaMyWindowAnimTheme" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenExitAnimation">@anim/out_to_alpha</item>
+    </style>
 
+    <!-- news界面底部按钮的style抽取 例子：android:layout_width="0dip"写成<item name="android:layout_width">0dip</item> -->
+    <style name="news_button_style">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/radiobutton_textcolor_selector</item>
+    </style>
 
 </resources>

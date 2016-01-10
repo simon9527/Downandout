@@ -2,6 +2,7 @@ package com.simonmeng.demo.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -122,34 +123,39 @@ public class WeatherActivity extends AppCompatActivity {
                             Log.i("sdkdemo", "onSuccess");
                             System.out.println(bean.CityWeather.get(0).daily_forecast.get(1).tmp.max+"");
                             WeatherForcastAdapter WeatherForcastAdapter = new WeatherForcastAdapter();
-                            //2.3之后取出顶部底部的阴影，2.3之前xml中android:fadingEdge="none"即可
-                            lv_weather_forecastweather.setOverScrollMode(View.OVER_SCROLL_NEVER);
+                            //2.3之后取出顶部底部的阴影，android:overScrollMode=”never”代码setOverScrollMode(View.OVER_SCROLL_NEVER);
                             lv_weather_forecastweather.setAdapter(WeatherForcastAdapter);
                             //获取城市的id，去掉前两位的字母，剩下的都是数字，可以通过switch判断，来设置背景
                             int cityid = Integer.parseInt(bean.CityWeather.get(0).basic.id.substring(2));
+                            int pm = bean.CityWeather.get(0).aqi.city.pm25;
                             String location = bean.CityWeather.get(0).basic.city;
                             SharedPreferences.Editor editor = sp.edit();
                             editor.putString("location", location);
                             editor.commit();
                             Log.i(tag, cityid + "");
-                            switch (cityid) {
-                                case 101010100://北京
-                                    ll_weather_background.setBackgroundResource(R.mipmap.city_beijing);
+                            switch (pm/40) {
+                                case 0://优蓝
+                                    //ll_weather_background.setBackgroundResource(R.mipmap.city_beijing);
+                                    ll_weather_background.setBackgroundColor(Color.parseColor("#2196F3"));
                                     break;
-                                case 101070101://沈阳
-                                    ll_weather_background.setBackgroundResource(R.mipmap.city_shenyang);
+                                case 1://良绿
+                                    ll_weather_background.setBackgroundColor(Color.parseColor("#21C3A8"));
                                     break;
-                                case 101060101://长春
-                                    ll_weather_background.setBackgroundResource(R.mipmap.city_changchun);
+                                case 2://轻橙
+                                    ll_weather_background.setBackgroundColor(Color.parseColor("#FF7F24"));
                                     break;
-                                case 101050101://哈尔滨
-                                    ll_weather_background.setBackgroundResource(R.mipmap.city_haerbin);
+                                case 3://中红
+                                    ll_weather_background.setBackgroundColor(Color.parseColor("#CD5C5C"));
                                     break;
-                                case 101020100://上海
-                                    ll_weather_background.setBackgroundResource(R.mipmap.city_shanghai);
+                                case 4://重紫
+                                    ll_weather_background.setBackgroundColor(Color.parseColor("#303F9F"));
                                     break;
-                                default://默认
-                                    ll_weather_background.setBackgroundResource(R.mipmap.city_default);
+                                case 5://严褐
+                                    ll_weather_background.setBackgroundColor(Color.parseColor("#727272"));
+                                    break;
+
+                                default://爆黑
+                                    ll_weather_background.setBackgroundColor(Color.parseColor("#212121"));
                                     break;
                             }
                         }
@@ -176,7 +182,7 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.putString("location", location);
                             editor.commit();
                             Log.i(tag, cityid + "");
-                            ll_weather_background.setBackgroundResource(R.mipmap.city_default);
+                            ll_weather_background.setBackgroundColor(Color.parseColor("#BBA87E"));
                         }
                         else{//情况1：status是"unknown city"；情况2：三线城市没有aqi
                             Toast.makeText(WeatherActivity.this,"没有查到该城市",Toast.LENGTH_LONG).show();
