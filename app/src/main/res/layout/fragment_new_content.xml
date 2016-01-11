@@ -8,7 +8,8 @@
         android:id="@+id/vp_fragment_news_content"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/colorGreen">
     </android.support.v4.view.ViewPager>
 
     <RadioGroup
@@ -18,25 +19,30 @@
         android:background="@color/Black"
         android:orientation="horizontal">
         <RadioButton
-            android:id="@+id/rb_news_content_main"
+            android:id="@+id/rb_news_content_worldnews"
             style="@style/news_button_style"
-            android:drawableTop="@drawable/news_mainbutton_bg"
-            android:text="main"/>
+            android:drawableTop="@drawable/news_worldbutton_bg"
+            android:text="world"
+            android:typeface="serif"/>
         <RadioButton
-            android:id="@+id/rb_news_content_sport"
+            android:id="@+id/rb_news_content_celebrity"
             style="@style/news_button_style"
-            android:drawableTop="@mipmap/news_sp"
-            android:text="sport"/>
+            android:drawableTop="@drawable/news_celebritybutton_bg"
+            android:text="celebrity"
+            android:typeface="serif"/>
+        <RadioButton
+            android:id="@+id/rb_news_content_joke"
+            style="@style/news_button_style"
+            android:drawableTop="@drawable/news_jokebutton_bg"
+            android:text="joke"
+            android:typeface="serif"/>
         <RadioButton
             android:id="@+id/rb_news_content_finance"
             style="@style/news_button_style"
-            android:drawableTop="@mipmap/news_fi"
-            android:text="finance"/>
-        <RadioButton
-            android:id="@+id/rb_news_content_music"
-            style="@style/news_button_style"
-            android:drawableTop="@mipmap/news_mu"
-            android:text="music"/>
+            android:drawableTop="@drawable/news_financebutton_bg"
+            android:text="finance"
+            android:typeface="serif"/>
+
 
     </RadioGroup>
 </LinearLayout>

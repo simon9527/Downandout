@@ -13,7 +13,7 @@ public class NewsLeftFragment extends BaseFragment {
     public View initView() {
         //初始化initView，就是要创建view然后返回即可，就会自动挂载到Fragment上。
         TextView tv= new TextView(mActivity);
-        tv.setText("Left");
+        tv.setText(".");
         return tv;
     }
 }

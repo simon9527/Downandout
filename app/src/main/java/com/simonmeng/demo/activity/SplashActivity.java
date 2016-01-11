@@ -27,10 +27,10 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void toMainActivity(View view){
-        Intent openMainActivityIntent = new Intent();
-        openMainActivityIntent.setClass(SplashActivity.this,MainActivity.class);
-        startActivity(openMainActivityIntent);
-        //finish();
+    public void toErrorPage(View view){
+        Intent openErrorPageIntent = new Intent();
+        openErrorPageIntent.setClass(SplashActivity.this, ErrorPageActivity.class);
+        startActivity(openErrorPageIntent);
+        finish();
     }
 }

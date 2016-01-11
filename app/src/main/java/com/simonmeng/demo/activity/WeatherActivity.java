@@ -1,5 +1,6 @@
 package com.simonmeng.demo.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,6 +39,7 @@ public class WeatherActivity extends AppCompatActivity {
     private WeatherBean bean;
     private Gson gson;
 
+
     LinearLayout ll_weather_background;
     ListView lv_weather_forecastweather;
     TextView tv_weather_location;
@@ -56,6 +59,7 @@ public class WeatherActivity extends AppCompatActivity {
         tv_weather_maxmin = (TextView) findViewById(R.id.tv_weather_maxmin);
         ll_weather_background = (LinearLayout) findViewById(R.id.ll_weather_background);
         lv_weather_forecastweather = (ListView) findViewById(R.id.lv_weather_forecastweather);
+
 
         //设置字体，typeface字体。
         Typeface face = Typeface.createFromAsset(getAssets(), "deftone stylus.ttf");
@@ -215,6 +219,8 @@ public class WeatherActivity extends AppCompatActivity {
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+            int windowHeight = wm.getDefaultDisplay().getHeight();
             if(position==0){
                 TextView tvHeader = new TextView(getApplicationContext());
                 tvHeader.setText("Weather Forecast ");
@@ -223,7 +229,9 @@ public class WeatherActivity extends AppCompatActivity {
                 tvHeader.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvHeader.setTextSize(25);
                 tvHeader.setBackgroundColor(00000000);
-                tvHeader.setPadding(0, 700, 0, 0);
+                //int dip =DpInterconvertPxUtils.px2dip(WeatherActivity.this,2000);
+
+                tvHeader.setPadding(0,windowHeight, 0, 0);
                 tvHeader.setGravity(Gravity.CENTER);
                 return tvHeader;
             }else if(position==7){
@@ -232,7 +240,7 @@ public class WeatherActivity extends AppCompatActivity {
                 tvHeader.setTextColor(getResources().getColor(R.color.colorWhite));
                 tvHeader.setTextSize(15);
                 tvHeader.setBackgroundColor(00000000);
-                tvHeader.setPadding(0, 0, 0, 300);
+                tvHeader.setPadding(0, 0, 0,windowHeight);
                 tvHeader.setGravity(Gravity.CENTER);
                 return tvHeader;
             }

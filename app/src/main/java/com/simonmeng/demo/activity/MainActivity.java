@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:// 断点下载
                         Intent intent3 = new Intent(MainActivity.this,
-                                DownloadActivity.class);
+                                SplashActivity.class);
                         startActivity(intent3);
                         break;
                     case 4:// 图片浏览

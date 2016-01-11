@@ -1,8 +1,10 @@
 package com.simonmeng.demo.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -23,9 +25,13 @@ public class NewsActivity extends SlidingFragmentActivity {
         setContentView(R.layout.news_content);
         setBehindContentView(R.layout.news_left);
         SlidingMenu mSlidingMenu = getSlidingMenu();
-        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        //SlidingMenu set TOUCHMODE_MARGIN,not TOUCHMODE_FULLSCREEN,it will conflict with  ViewPager.
+        mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
         //主界面留在屏幕上多少像素
-        mSlidingMenu.setBehindOffset(100);
+        WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+        int windowWidth = wm.getDefaultDisplay().getWidth();
+        int Offset = windowWidth/3;
+        mSlidingMenu.setBehindOffset(Offset);
 
         initFragment();
 
