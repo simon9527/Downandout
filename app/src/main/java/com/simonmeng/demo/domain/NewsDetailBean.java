@@ -32,6 +32,7 @@ public class NewsDetailBean {
         public Comment comment;
         public String desc;
         public List<Imageurls> imageurls;
+        public String long_desc;
         public String link;
         public String nid;
         public String pubDate;

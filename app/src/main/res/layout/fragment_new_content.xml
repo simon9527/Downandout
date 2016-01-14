@@ -15,32 +15,32 @@
     <RadioGroup
         android:id="@+id/rg_fragment_news_content"
         android:layout_width="match_parent"
-        android:layout_height="60dip"
+        android:layout_height="48dip"
         android:background="@color/Black"
         android:orientation="horizontal">
         <RadioButton
-            android:id="@+id/rb_news_content_worldnews"
+            android:id="@+id/rb_news_content_one"
             style="@style/news_button_style"
-            android:drawableTop="@drawable/news_worldbutton_bg"
+            android:drawableTop="@drawable/news_homebutton"
+            android:text="home"
+            android:typeface="serif"/>
+        <RadioButton
+            android:id="@+id/rb_news_content_two"
+            style="@style/news_button_style"
+            android:drawableTop="@drawable/news_worldbutton"
             android:text="world"
             android:typeface="serif"/>
         <RadioButton
-            android:id="@+id/rb_news_content_celebrity"
+            android:id="@+id/rb_news_content_three"
             style="@style/news_button_style"
-            android:drawableTop="@drawable/news_celebritybutton_bg"
+            android:drawableTop="@drawable/news_celebutton"
             android:text="celebrity"
             android:typeface="serif"/>
         <RadioButton
-            android:id="@+id/rb_news_content_joke"
+            android:id="@+id/rb_news_content_four"
             style="@style/news_button_style"
-            android:drawableTop="@drawable/news_jokebutton_bg"
+            android:drawableTop="@drawable/news_jokebutton"
             android:text="joke"
-            android:typeface="serif"/>
-        <RadioButton
-            android:id="@+id/rb_news_content_finance"
-            style="@style/news_button_style"
-            android:drawableTop="@drawable/news_financebutton_bg"
-            android:text="finance"
             android:typeface="serif"/>
 
 

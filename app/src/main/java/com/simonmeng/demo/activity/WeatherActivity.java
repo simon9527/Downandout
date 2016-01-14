@@ -209,7 +209,6 @@ public class WeatherActivity extends AppCompatActivity {
                 });
     }
 
-    //TODO 创建一个listview展示天气预报
 
     private class WeatherForcastAdapter extends BaseAdapter{
         List<WeatherBean.Daily_forecast> daily_forecasts = null;

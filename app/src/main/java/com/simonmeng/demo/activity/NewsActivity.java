@@ -30,15 +30,13 @@ public class NewsActivity extends SlidingFragmentActivity {
         //主界面留在屏幕上多少像素
         WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
         int windowWidth = wm.getDefaultDisplay().getWidth();
-        int Offset = windowWidth/3;
+        int Offset = windowWidth/4;
         mSlidingMenu.setBehindOffset(Offset);
 
         initFragment();
 
-//        tv_news_slogon = (TextView) findViewById(R.id.tv_news_slogon);
-//        Typeface face = Typeface.createFromAsset(getAssets(),"Walkway Bold.ttf");
-//        tv_news_slogon.setTypeface(face);
-//        tv_news_slogon.setTransformationMethod(null);
+
+
     }
 
     private void initFragment(){
@@ -48,6 +46,26 @@ public class NewsActivity extends SlidingFragmentActivity {
         mFragmentTransaction.replace(R.id.fl_news_content, new NewsContentFragment(), NEWS_CONTENT_TAG);
         mFragmentTransaction.replace(R.id.fl_news_left, new NewsLeftFragment(), NEWS_LEFT_TAG);
         mFragmentTransaction.commit();
+    }
+
+    /**
+     * 因为news的子菜单很多时候都会与SlidingMenu交互，但是还不能直接交互，需要找到NewsActivity，然后拿到FragmentManager。
+     * 然后才能进行交互，故，在NewsActivity中提供一个方法：可以获取SlidingMenu的实例NewsLeftFragment。
+     * notice：FragmentManager不能通过findViewById找到NewsLeftFragment，id只能在xml中设置，但是它还提供一方法：findFragmentByTag
+     * 这就是上面在initFragment中replace时加了个tag参数，就是在那里给两个Fragment打了印记，供以后能够找到他们
+     * */
+    public NewsLeftFragment getNewsLeftFragment(){
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        NewsLeftFragment newsLeftFragment= (NewsLeftFragment) mFragmentManager.findFragmentByTag(NEWS_LEFT_TAG);
+        return newsLeftFragment;
+    }
+    /**
+     *同样从Slidingmenu获取交互主界面，也需要NewsActivity提供一个getNewsContentFragment的方法
+     * */
+    public NewsContentFragment getNewsContentFragment(){
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        NewsContentFragment newsContentFragment = (NewsContentFragment) mFragmentManager.findFragmentByTag(NEWS_CONTENT_TAG);
+        return newsContentFragment;
     }
 
 }

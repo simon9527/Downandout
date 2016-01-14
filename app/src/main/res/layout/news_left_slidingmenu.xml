@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_testss"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     >
+
+    <LinearLayout
+        android:id="@+id/ll_head_icon_testss"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/Black"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/a"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_testss"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#00000000"
+        android:fadingEdge="none"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:divider="#101010"
+        android:dividerHeight="1dp"
+        android:background="@color/Black">
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/ll_item_news_left_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/news_left_setting"/>
+        <TextView
+            android:id="@+id/tv_item_news_left_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:text="Setting"
+            android:textSize="18sp"
+            android:textColor="@color/news_left_textcolor"/>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

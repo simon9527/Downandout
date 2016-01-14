@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.simonmeng.demo.R;
+import com.simonmeng.demo.utils.Constants;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
         Typeface face = Typeface.createFromAsset(getAssets(), "Walkway Bold.ttf");
         tv_mainhead_title.setTypeface(face);
         tv_mainhead_category.setTypeface(face);
+        //当第一个界面启动时，就获取屏幕的宽高，传给Constants。
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        Constants.displayWidth = displayMetrics.widthPixels;
+        Constants.displayHeight = displayMetrics.heightPixels;
 
         GridView gridview = (GridView) findViewById(R.id.gv_main_menu);
         gridview.setAdapter(new HomeAdapter());

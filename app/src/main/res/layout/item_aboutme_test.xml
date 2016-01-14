@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    tools:context="com.simonmeng.demo.activity.AboutMeActivity">
+    <TextView
+        android:id="@+id/tv_zhengwen"
+        android:text="正文"
+        android:textColor="@color/indianRed"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+    <Button
+        android:id="@+id/bt_aboutme"
+        android:layout_below="@id/tv_zhengwen"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="详情"
+        android:onClick="getDetail"/>
+    <WebView
+        android:id="@+id/wv_aboutme"
+        android:layout_below="@id/bt_aboutme"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"></WebView>
+
+    <Button
+        android:id="@+id/bt_shouqi"
+        android:layout_below="@id/wv_aboutme"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="收起"
+        android:onClick="getDetail"/>
+</RelativeLayout>
