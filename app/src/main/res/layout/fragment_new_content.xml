@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
+    <com.simonmeng.demo.customview.OutterViewPager
         android:id="@+id/vp_fragment_news_content"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:background="@color/colorGreen">
-    </android.support.v4.view.ViewPager>
+    </com.simonmeng.demo.customview.OutterViewPager>
 
     <RadioGroup
         android:id="@+id/rg_fragment_news_content"

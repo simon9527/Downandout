@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/yahooGray">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,7 +14,6 @@
             android:id="@+id/vp_world_top_pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
         </android.support.v4.view.ViewPager>
 
         <RelativeLayout
@@ -22,30 +22,50 @@
             android:layout_alignParentBottom="true"
             android:background="#33000000">
 
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="match_parent"
+                android:orientation="vertical">
                 <TextView
-                    android:id="@+id/tv_world_top_desc"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="desc"
-                    android:textColor="@color/Black" />
-
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="15"/>
                 <LinearLayout
-                    android:id="@+id/ll_world_top_points"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@color/tealGreen"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center">
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4个圆点" />
+                        android:id="@+id/tv_world_top_desc"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:textSize="14sp"
+                        android:singleLine="true"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"
+                        android:textColor="@color/darkWhite" />
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+                        <LinearLayout
+                            android:id="@+id/ll_world_top_points"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:orientation="horizontal">
+                        </LinearLayout>
+                        <View
+                            android:id="@+id/select_point"
+                            android:layout_width="7dp"
+                            android:layout_height="7dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/circleshape_green"/>
+                    </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -55,7 +75,17 @@
         android:id="@+id/lv_world_detail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#00000000"
+        android:fadingEdge="none"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:divider="@color/yahooGray"
+        android:dividerHeight="10dp">
 
     </ListView>
 

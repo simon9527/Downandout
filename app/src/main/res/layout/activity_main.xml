@@ -57,7 +57,7 @@
        <ImageView
            android:layout_width="50dp"
            android:layout_height="50dp"
-           android:background="@drawable/circleshape"
+           android:background="@drawable/circleshape_yellow"
            android:scaleType="centerInside"
            android:src="@mipmap/s"
            android:layout_alignParentRight="true"
