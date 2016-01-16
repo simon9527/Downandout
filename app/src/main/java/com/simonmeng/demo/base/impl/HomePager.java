@@ -1,39 +1,50 @@
 package com.simonmeng.demo.base.impl;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.view.Gravity;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.simonmeng.demo.R;
 import com.simonmeng.demo.activity.NewsActivity;
 import com.simonmeng.demo.base.BaseRadioButtonPager;
 import com.simonmeng.demo.base.BaseShowLeftHomePager;
+import com.simonmeng.demo.domain.NewsDetailBean;
 import com.simonmeng.demo.domain.NewsListBean;
 import com.simonmeng.demo.fragment.NewsLeftFragment;
-import com.simonmeng.demo.utils.AsykTaskUtils;
 import com.simonmeng.demo.utils.CacheUtils;
 import com.simonmeng.demo.utils.Constants;
 import com.simonmeng.demo.utils.TypefaceUtils;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * HomePager extends BaseViewPager,it own BaseViewPager's layout,and fill HomePager's data.
  * BaseViewPager has FrameLayout,so HomePager can change the superclass's layout by setting its own layout
  */
 public class HomePager extends BaseRadioButtonPager {
-
-    public String newListJson;
-    List<BaseShowLeftHomePager> pagerList;
-    List<NewsListBean.ChannelList> channelList;
+    @ViewInject(R.id.lv_news_home)
+    private ListView newsHomeListView;
+    private List<NewsDetailBean.Contentlist> contentlist;
+    private List<BaseShowLeftHomePager> pagerList;
+    private List<NewsListBean.ChannelList> channelList;
 
     public HomePager(Context context) {
         super(context);
@@ -49,82 +60,136 @@ public class HomePager extends BaseRadioButtonPager {
         tv_base_radio_button_pager_header.setText("Home");
         TextView tvTest = new TextView(mContext);
         TypefaceUtils.setCustomTypeface(mContext, tv_base_radio_button_pager_header);
+        // TODO: 2016/1/16 先初始化界面，把listview添加上，然后再访问网络，给listview加数据
+        View view = View.inflate(mContext, R.layout.news_home,null);
+        ViewUtils.inject(this, view);
+        frameLayoutContent.addView(view);
+        getNewsListFromNetwork(Constants.httpNewsListUrl);
 
-        tvTest.setGravity(Gravity.CENTER);
-        tvTest.setTextSize(25);
-        tvTest.setTextColor(Color.RED);
-        frameLayoutContent.addView(tvTest);
-        tvTest.setText("据台湾媒体报道,《康熙来了》");
+        getNewsDetailData(Constants.httpNewsDetailUrl,channelList.get(0).channelId);
 
-        //get the channelList.by open a child thread
-        new AsykTaskUtils(){
-            @Override
-            public void afterSubThreadTask() {
-                Gson gson = new Gson();
-               if(newListJson!=null){
-                   NewsListBean bean = gson.fromJson(newListJson, NewsListBean.class);
-                   //此方法要在setNewsDataList调用，就是先创建左侧菜单集合，然后setNewsDataList会初始化左侧菜单，并设置第一个为默认选中，否则会空指针
-                   showNewsLeft();
-                   channelList = bean.showapi_res_body.channelList;
-                   NewsLeftFragment newsLeftFragment = ((NewsActivity)mContext).getNewsLeftFragment();
-                   newsLeftFragment.setNewsDataList(channelList);
-               }
-            }
-            @Override
-            public void beforeSubThreadTask() {
-                String httpNewsListArg = "";
-                String json = CacheUtils.getString(mContext,"channelList",null);
-                if(json!=null){
-                    Gson gson = new Gson();
-                    NewsListBean bean = gson.fromJson(json, NewsListBean.class);
-                    showNewsLeft();
-                    channelList = bean.showapi_res_body.channelList;
-                    NewsLeftFragment newsLeftFragment = ((NewsActivity)mContext).getNewsLeftFragment();
-                    newsLeftFragment.setNewsDataList(channelList);
-                }
-            }
-            @Override
-            public void doSubThreadTaskInBackground() {
-                String httpNewsListArg = "";
-                newListJson = getNetworkData(Constants.httpNewsListUrl,httpNewsListArg);
-            }
-        }.execute();
+
     }
 
-    // the method can get json from network
-    public  String getNetworkData(String httpUrl, String httpArg) {
-        BufferedReader reader = null;
-        String result = null;
-        StringBuffer sbf = new StringBuffer();
-        httpUrl = httpUrl + "?" + httpArg;
-
-        try {
-            URL url = new URL(httpUrl);
-            HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setRequestMethod("GET");
-            // 填入apikey到HTTP header
-            connection.setRequestProperty("apikey", Constants.myApiKey);
-            connection.connect();
-            InputStream is = connection.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            String strRead = null;
-            while ((strRead = reader.readLine()) != null) {
-                sbf.append(strRead);
-                sbf.append("\r\n");
+    public void getNewsListFromNetwork(String httpNewsListUrl){
+        String json = CacheUtils.getString(mContext,"channelList",null);
+        if(json!=null){
+            processNewsListData(json);
+        }
+        HttpUtils utils = new HttpUtils();
+        RequestParams params = new RequestParams();
+        params.addHeader("apikey", Constants.myApiKey);
+        utils.send(HttpRequest.HttpMethod.GET, httpNewsListUrl, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                CacheUtils.putString(mContext, "channelList", responseInfo.result);
+                System.out.print(responseInfo.result);
+                processNewsListData(responseInfo.result);
             }
-            reader.close();
-            result = sbf.toString();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //缓存json数据，key名要唯一，就是url+请求参数，value就是json数据
-        if(result!=null){
-            CacheUtils.putString(mContext,"channelList",result);
-        }
-        return result;
+            @Override
+            public void onFailure(HttpException e, String s) {
+                // TODO: 2016/1/15 获取失败应该处理空指针异常
+            }
+        });
     }
+
+    public void processNewsListData(String newsListJson){
+        Gson gson = new Gson();
+        NewsListBean bean = gson.fromJson(newsListJson, NewsListBean.class);
+        showNewsLeft();
+        channelList = bean.showapi_res_body.channelList;
+        NewsLeftFragment newsLeftFragment = ((NewsActivity)mContext).getNewsLeftFragment();
+        newsLeftFragment.setNewsDataList(channelList);
+    }
+    /***************************************************************************************/
+    public void getNewsDetailData(String httpUrl, final String id) {
+        String json = CacheUtils.getString(mContext,id,null);
+        if(!TextUtils.isEmpty(json)){
+            processDetailData(json);
+        }
+        HttpUtils utils = new HttpUtils();
+        RequestParams params = new RequestParams();
+        params.addHeader("apikey", Constants.myApiKey);
+        utils.send(HttpRequest.HttpMethod.GET, httpUrl, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                CacheUtils.putString(mContext, id, responseInfo.result);
+                System.out.print(responseInfo.result);
+                processDetailData(responseInfo.result);
+            }
+            @Override
+            public void onFailure(HttpException e, String s) {
+                // TODO: 2016/1/15 获取失败应该处理空指针异常
+            }
+        });
+    }
+    protected void processDetailData(String json){
+        Gson gson = new Gson();
+        NewsDetailBean newsDetailBean = gson.fromJson(json, NewsDetailBean.class);
+//        contentlist =  newsDetailBean.showapi_res_body.pagebean.contentlist;
+//        topDescTextView.setText(contentlist.get(0).title);
+//        WorldTopPicAdapter worldTopPicAdapter = new WorldTopPicAdapter();
+//        topPicViewPager.setAdapter(worldTopPicAdapter);
+//        //给viewpager加一个PageChange监听这样可以控制小绿点和它同步滑动
+//        topPicViewPager.setOnPageChangeListener(this);
+        contentlist = newsDetailBean.showapi_res_body.pagebean.contentlist;
+        NewsHomeListViewAdapter newsHomeListViewAdapter = new NewsHomeListViewAdapter();
+        newsHomeListView.setAdapter(newsHomeListViewAdapter);
+
+    }
+
+    class NewsHomeListViewAdapter extends BaseAdapter{
+        @Override
+        public int getCount() { return contentlist.size();}
+        @Override
+        public Object getItem(int position) { return null;}
+        @Override
+        public long getItemId(int position) { return 0;}
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            NewsHomeViewHolder newsHomeViewHolder = null;
+            if(newsHomeViewHolder == null){
+                convertView = View.inflate(mContext,R.layout.item_news_home_listview,null);
+                newsHomeViewHolder = new NewsHomeViewHolder();
+                newsHomeViewHolder.tv_news_home_cate = (TextView) convertView.findViewById(R.id.tv_news_home_cate);
+                newsHomeViewHolder.tv_news_home_date = (TextView) convertView.findViewById(R.id.tv_news_home_date);
+                newsHomeViewHolder.tv_news_home_time = (TextView) convertView.findViewById(R.id.tv_news_home_time);
+                newsHomeViewHolder.tv_news_home_desc = (TextView) convertView.findViewById(R.id.tv_news_home_desc);
+                convertView.setTag(newsHomeViewHolder);
+            }else {
+                newsHomeViewHolder = (NewsHomeViewHolder) convertView.getTag();
+            }
+            try {
+                SimpleDateFormat sdf  =   new  SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+                // SimpleDateFormat sdf  =   new  SimpleDateFormat( " yyyy年MM月dd日 " );
+                Date date = sdf.parse(contentlist.get(position).pubDate);
+                sdf = new SimpleDateFormat("MMM\nd", Locale.US);
+                System.out.println(sdf.format(date));
+                newsHomeViewHolder.tv_news_home_date.setText(sdf.format(date));
+                sdf = new SimpleDateFormat("h:mm a");
+                newsHomeViewHolder.tv_news_home_time.setText(sdf.format(date));
+
+//                DateFormat df1 = DateFormat.getDateInstance();//日期格式，精确到日
+//                System.out.println(df1.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            newsHomeViewHolder.tv_news_home_cate.setText(contentlist.get(position).channelName);
+            newsHomeViewHolder.tv_news_home_desc.setText(contentlist.get(position).desc);
+            return convertView;
+        }
+    }
+
+    class NewsHomeViewHolder{
+        public TextView tv_news_home_cate;
+        public TextView tv_news_home_date;
+        public TextView tv_news_home_time;
+        public TextView tv_news_home_desc;
+    }
+    /***************************************************************************************/
+
+
 
 
     /**显示左侧条目的界面---在HomePager页面
@@ -141,20 +206,26 @@ public class HomePager extends BaseRadioButtonPager {
      * 点击NewsLeftFragment的item --NewsActivity--NewsContentFragment--HomePager--switchPagerRespondLeft()
      * */
     public  void switchPagerRespondLeft(int position){
-        // TODO: 2016/1/13 因为没有创建过个界面，就一个，所以，当调用此方法，传个position会出空指针，就是不管传进来谁，都取第一个
-        BaseShowLeftHomePager pager = pagerList.get(0);
-        View view = pager.getRootView();
-        /**
-         * HomePager中只用中间的FrameLayout是显示内容的，HomePager的父类BaseRadioButtonPager同了该对象---拿来直接用
-         * 一调用switchPagerRespondLeft方法，FrameLayout先删除所有View，防止重叠。
-         * 把从集合pagerList取出来的左侧布局添加到FrameLayout
-         */
-        frameLayoutContent.removeAllViews();
-        frameLayoutContent.addView(view);
+        String channelId = channelList.get(position).channelId;
+        getNewsDetailData(Constants.httpNewsDetailUrl,channelId);
 
-        /**
-         * 对应的HomePager的title也要相应改变*/
-        String channelName = channelList.get(position).name;
-        tv_base_radio_button_pager_header.setText(channelName);
+
+
+
+        // TODO: 2016/1/13 因为没有创建过个界面，就一个，所以，当调用此方法，传个position会出空指针，就是不管传进来谁，都取第一个
+//        BaseShowLeftHomePager pager = pagerList.get(0);
+//        View view = pager.getRootView();
+//        /**
+//         * HomePager中只用中间的FrameLayout是显示内容的，HomePager的父类BaseRadioButtonPager同了该对象---拿来直接用
+//         * 一调用switchPagerRespondLeft方法，FrameLayout先删除所有View，防止重叠。
+//         * 把从集合pagerList取出来的左侧布局添加到FrameLayout
+//         */
+//        frameLayoutContent.removeAllViews();
+//        frameLayoutContent.addView(view);
+//
+//        /**
+//         * 对应的HomePager的title也要相应改变*/
+//        String channelName = channelList.get(position).name;
+//        tv_base_radio_button_pager_header.setText(channelName);
     }
 }

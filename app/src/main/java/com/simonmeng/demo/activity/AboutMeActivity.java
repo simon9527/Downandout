@@ -15,5 +15,6 @@ public class AboutMeActivity extends Activity {
         setContentView(R.layout.item_joke);
         WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
 
+
     }
 }

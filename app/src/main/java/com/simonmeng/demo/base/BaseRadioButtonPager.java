@@ -36,9 +36,7 @@ public class BaseRadioButtonPager implements OnClickListener {
         frameLayoutContent = (FrameLayout) view.findViewById(R.id.fl_base_radiobutton_pager_content);
         tv_base_radio_button_pager_header = (TextView)view.findViewById(R.id.tv_base_radio_button_pager_header);
         ib_title_menu = (ImageButton) view.findViewById(R.id.ib_title_menu);
-
         ib_title_menu.setOnClickListener(this);
-
         return view;
     }
     //提供一个get方法，把初始化后的rootView给调用者
@@ -46,10 +44,7 @@ public class BaseRadioButtonPager implements OnClickListener {
         return rootView;
     }
     //provide a abstract method,subclass overwrite it,and fill itself data.
-    public void initData(){
-
-    }
-
+    public void initData(){}
     /**the whole class implements OnClickListener[android.view.View.OnClickListener],and set the ib_title_menu a Listener
      * when the ib_title_menu onClick, it will control the SlidingMenu show up or not,
      * the first you should get the instance of the SlidingMenu,but only the NewsActivity can get it.

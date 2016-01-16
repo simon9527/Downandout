@@ -174,6 +174,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
             }
             newsDetailViewHolder.tv_news_detail_source.setText(contentlist.get(position+AMOUNTOFTOPPIC).source);
             newsDetailViewHolder.tv_news_detial_pubDate.setText(contentlist.get(position+AMOUNTOFTOPPIC).pubDate);
+
             return convertView;
         }
     }
