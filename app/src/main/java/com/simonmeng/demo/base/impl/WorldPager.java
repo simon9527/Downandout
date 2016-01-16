@@ -2,8 +2,8 @@ package com.simonmeng.demo.base.impl;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Message;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -35,8 +35,6 @@ import com.simonmeng.demo.utils.CacheUtils;
 import com.simonmeng.demo.utils.Constants;
 import com.simonmeng.demo.utils.DpInterconvertPxUtils;
 import com.simonmeng.demo.utils.TypefaceUtils;
-
-
 
 import java.util.List;
 
@@ -70,15 +68,16 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         tv_base_radio_button_pager_header.setText("World News");
         ib_title_menu.setVisibility(View.GONE);
         TypefaceUtils.setCustomTypeface(mContext, tv_base_radio_button_pager_header);
-       // frameLayoutContent.removeAllViews();
         View view = View.inflate(mContext, R.layout.news_world,null);
         ViewUtils.inject(this, view);
+        View newsHeader = View.inflate(mContext,R.layout.news_world_carousel_header,null);
+        ViewUtils.inject(this, newsHeader);
+        worldDetailListView.addHeaderView(newsHeader);
         //刚开始吧drawPoint方法放到了processData中，致使每次调用processData都画一遍，画了很多points
         drawPoint(AMOUNTOFTOPPIC);
         frameLayoutContent.addView(view);
-        getNetworkData(Constants.httpNewsDetailUrl, "5572a109b3cdc86cf39001e6");
-
-
+        String httpUrl = Constants.httpNewsDetailUrl+"5572a109b3cdc86cf39001e6";
+        getNetworkData(httpUrl,"5572a109b3cdc86cf39001e6");
         selectPoint.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             //获取间距.  只要布局的参数一改变就会触发此方法.
             @Override
@@ -90,12 +89,33 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
             }
         });
         selectPointBeginLeft = ((RelativeLayout.LayoutParams) selectPoint.getLayoutParams()).leftMargin;
-
     }
+    public void getNetworkData(String httpUrl, final String id) {
+        String json = CacheUtils.getString(mContext,id,null);
+        if(!TextUtils.isEmpty(json)){
+            processData(json);
+        }
+        HttpUtils utils = new HttpUtils();
+        RequestParams params = new RequestParams();
+        params.addHeader("apikey", Constants.myApiKey);
+        utils.send(HttpRequest.HttpMethod.GET, httpUrl, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                CacheUtils.putString(mContext, id, responseInfo.result);
+                System.out.print(responseInfo.result);
+                processData(responseInfo.result);
+            }
+            @Override
+            public void onFailure(HttpException e, String s) {
+                // TODO: 2016/1/15 获取失败应该处理空指针异常
+            }
+        });
+    }
+
 
     protected void processData(String json){
         Gson gson = new Gson();
-        NewsDetailBean newsDetailBean = gson.fromJson(json,NewsDetailBean.class);
+        NewsDetailBean newsDetailBean = gson.fromJson(json, NewsDetailBean.class);
         contentlist =  newsDetailBean.showapi_res_body.pagebean.contentlist;
         topDescTextView.setText(contentlist.get(0).title);
         WorldTopPicAdapter worldTopPicAdapter = new WorldTopPicAdapter();
@@ -115,9 +135,9 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
 
         NewsListViewAdapter newsListViewAdapter = new NewsListViewAdapter();
         worldDetailListView.setAdapter(newsListViewAdapter);
-
-
     }
+
+
 
     class NewsListViewAdapter extends BaseAdapter{
         @Override
@@ -164,10 +184,6 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         public TextView tv_news_detial_pubDate;
     }
 
-
-
-
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         //position 当前滑动的是第几页  positionOffset 页面滑动的百分比  positionOffsetPixels 页面移动的像素
@@ -183,9 +199,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         topDescTextView.setText(title);
     }
     @Override
-    public void onPageScrollStateChanged(int state) {
-    }
-
+    public void onPageScrollStateChanged(int state) { }
 
     class WorldTopPicAdapter extends PagerAdapter{
         @Override
@@ -221,30 +235,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
             }
             return iv;
         }
-
     }
-
-    public  void getNetworkData(String httpUrl, final String channelId) {
-        final String json = CacheUtils.getString(mContext,channelId,null);
-        if(!TextUtils.isEmpty(json)){
-            processData(json);
-        }
-        HttpUtils utils = new HttpUtils();
-        RequestParams params = new RequestParams();
-        params.addHeader("apikey", Constants.myApiKey);
-        utils.send(HttpRequest.HttpMethod.GET, httpUrl,params , new RequestCallBack<String>() {
-            @Override
-            public void onSuccess(ResponseInfo<String> responseInfo) {
-                CacheUtils.putString(mContext,channelId,responseInfo.result);
-                processData(responseInfo.result);
-            }
-            @Override
-            public void onFailure(HttpException e, String s) {
-                // TODO: 2016/1/15 获取失败应该处理空指针异常
-            }
-        });
-    }
-
 
     public void drawPoint(int amount){
         /**画点，在LinearLayout布局上褒一个RelativeLayout，在RelativeLayout放一个view，background是圆点，就可以罩下面的圆点
@@ -264,9 +255,6 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
             pointsLinearLayout.addView(piont);
         }
     }
-
-
-
     class InternalHandlerForImageCarousel extends Handler {
         /***
          * 定时器：

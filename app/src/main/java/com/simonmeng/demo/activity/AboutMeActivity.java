@@ -1,20 +1,19 @@
 package com.simonmeng.demo.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.webkit.WebView;
+import android.view.WindowManager;
 
 import com.simonmeng.demo.R;
 
-public class AboutMeActivity extends AppCompatActivity {
+public class AboutMeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_me);
+        setContentView(R.layout.item_joke);
+        WindowManager wm = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
 
-        WebView wv =  (WebView)findViewById(R.id.wv_aboutme);
-        wv.setVerticalScrollBarEnabled(false);
-        wv.loadUrl("http://view.inews.qq.com/a/ENT2016011301562504");
     }
 }

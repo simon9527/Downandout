@@ -12,6 +12,6 @@ public class Constants {
     //httpNewsListArg:为空即可。
     public static final String httpNewsListUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/channel_news";
     //httpNewsDetailArg:"channelId=xxx&page=1"
-    public static final String httpNewsDetailUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news";
+    public static final String httpNewsDetailUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news?channelId=";
 
 }
