@@ -101,9 +101,12 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         utils.send(HttpRequest.HttpMethod.GET, httpUrl, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                CacheUtils.putString(mContext, id, responseInfo.result);
-                System.out.print(responseInfo.result);
-                processData(responseInfo.result);
+                //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
+                if(responseInfo.result.length()>50){
+                    CacheUtils.putString(mContext, id, responseInfo.result);
+                    System.out.print(responseInfo.result);
+                    processData(responseInfo.result);
+                }
             }
             @Override
             public void onFailure(HttpException e, String s) {

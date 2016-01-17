@@ -39,4 +39,5 @@ public class CacheUtils {
         }
         return mSharedPreferences.getString(key,defValue);
     }
+
 }

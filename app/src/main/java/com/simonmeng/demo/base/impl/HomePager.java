@@ -46,6 +46,7 @@ public class HomePager extends BaseRadioButtonPager {
     private List<BaseShowLeftHomePager> pagerList;
     private List<NewsListBean.ChannelList> channelList;
 
+    private String inputChannelId;
     public HomePager(Context context) {
         super(context);
     }
@@ -66,7 +67,7 @@ public class HomePager extends BaseRadioButtonPager {
         frameLayoutContent.addView(view);
         getNewsListFromNetwork(Constants.httpNewsListUrl);
 
-        getNewsDetailData(Constants.httpNewsDetailUrl,channelList.get(0).channelId);
+        getNewsDetailData(Constants.httpNewsDetailUrl, inputChannelId);
 
 
     }
@@ -82,9 +83,12 @@ public class HomePager extends BaseRadioButtonPager {
         utils.send(HttpRequest.HttpMethod.GET, httpNewsListUrl, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                CacheUtils.putString(mContext, "channelList", responseInfo.result);
-                System.out.print(responseInfo.result);
-                processNewsListData(responseInfo.result);
+                //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
+                if(responseInfo.result.length()>50) {
+                    CacheUtils.putString(mContext, "channelList", responseInfo.result);
+                    System.out.print(responseInfo.result);
+                    processNewsListData(responseInfo.result);
+                }
             }
 
             @Override
@@ -103,20 +107,26 @@ public class HomePager extends BaseRadioButtonPager {
         newsLeftFragment.setNewsDataList(channelList);
     }
     /***************************************************************************************/
-    public void getNewsDetailData(String httpUrl, final String id) {
-        String json = CacheUtils.getString(mContext,id,null);
+    public void getNewsDetailData(String httpUrl, String id) {
+        inputChannelId = id;
+        String json = CacheUtils.getString(mContext,inputChannelId,null);
         if(!TextUtils.isEmpty(json)){
             processDetailData(json);
         }
+        httpUrl = httpUrl+inputChannelId;
         HttpUtils utils = new HttpUtils();
         RequestParams params = new RequestParams();
         params.addHeader("apikey", Constants.myApiKey);
         utils.send(HttpRequest.HttpMethod.GET, httpUrl, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                CacheUtils.putString(mContext, id, responseInfo.result);
-                System.out.print(responseInfo.result);
-                processDetailData(responseInfo.result);
+                //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
+                if(responseInfo.result.length()>50) {
+                    CacheUtils.putString(mContext, inputChannelId, responseInfo.result);
+                    String aa = responseInfo.result;
+                    System.out.print(responseInfo.result);
+                    processDetailData(responseInfo.result);
+                }
             }
             @Override
             public void onFailure(HttpException e, String s) {
@@ -206,8 +216,8 @@ public class HomePager extends BaseRadioButtonPager {
      * 点击NewsLeftFragment的item --NewsActivity--NewsContentFragment--HomePager--switchPagerRespondLeft()
      * */
     public  void switchPagerRespondLeft(int position){
-        String channelId = channelList.get(position).channelId;
-        getNewsDetailData(Constants.httpNewsDetailUrl,channelId);
+        inputChannelId = channelList.get(position).channelId;
+        getNewsDetailData(Constants.httpNewsDetailUrl,inputChannelId);
 
 
 

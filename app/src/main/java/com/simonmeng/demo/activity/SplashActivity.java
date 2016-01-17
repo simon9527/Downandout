@@ -1,15 +1,15 @@
 package com.simonmeng.demo.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.simonmeng.demo.R;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends Activity {
 
     private Button bt_splash_start;
     @Override
@@ -23,14 +23,13 @@ public class SplashActivity extends AppCompatActivity {
         bt_splash_start.setTypeface(face);
         bt_splash_start.setTransformationMethod(null);
 
-
-
     }
 
-    public void toErrorPage(View view){
+    public void toMain(View view){
         Intent openErrorPageIntent = new Intent();
-        openErrorPageIntent.setClass(SplashActivity.this, ErrorPageActivity.class);
+        openErrorPageIntent.setClass(SplashActivity.this, MainActivity.class);
         startActivity(openErrorPageIntent);
         finish();
     }
+
 }

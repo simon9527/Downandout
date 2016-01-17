@@ -1,15 +1,15 @@
 package com.simonmeng.demo.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.simonmeng.demo.R;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe);
+        setContentView(R.layout.activity_error_page);
     }
 }

@@ -5,15 +5,5 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.simonmeng.demo.activity.GalleryActivity">
-    <TextView
-        android:id="@+id/tv_gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="50dip"
-        android:textColor="@color/colorWhite"
-        android:background="@color/Black"/>
-    <ImageView
-        android:id="@+id/mImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

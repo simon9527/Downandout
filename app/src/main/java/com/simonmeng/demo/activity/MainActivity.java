@@ -1,9 +1,9 @@
 package com.simonmeng.demo.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,7 @@ import com.simonmeng.demo.R;
 import com.simonmeng.demo.utils.Constants;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 3:// 断点下载
                         Intent intent3 = new Intent(MainActivity.this,
-                                SplashActivity.class);
+                                DownloadActivity.class);
                         startActivity(intent3);
                         break;
                     case 4:// 图片浏览

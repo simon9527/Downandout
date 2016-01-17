@@ -1,16 +1,17 @@
 package com.simonmeng.demo.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.simonmeng.demo.R;
 
-public class SearchWeatherActivity extends AppCompatActivity {
+public class SearchWeatherActivity extends Activity {
 
     private SharedPreferences sp;
     private EditText et_searchweather_location;
@@ -27,11 +28,14 @@ public class SearchWeatherActivity extends AppCompatActivity {
     public void sendLocation(View view){
         String inputLocation = et_searchweather_location.getText().toString().trim();
 
-        Intent intent = new Intent();
-        intent.putExtra("inputLocation", inputLocation);
-        setResult(0, intent);
+        if(!TextUtils.isEmpty(inputLocation)){
+            Intent intent = new Intent();
+            intent.putExtra("inputLocation", inputLocation);
+            setResult(0, intent);
+            //用户点击搜索，关闭该页面，跳转到天气预报界面
+            finish();
+        }
 
-        //用户点击搜索，关闭该页面，跳转到天气预报界面
-        finish();
+
     }
 }

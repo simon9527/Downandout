@@ -1,11 +1,11 @@
 package com.simonmeng.demo.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.simonmeng.demo.R;
 
-public class ErrorPageActivity extends AppCompatActivity {
+public class ErrorPageActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

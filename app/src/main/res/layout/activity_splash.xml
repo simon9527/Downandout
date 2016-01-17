@@ -9,14 +9,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="13"/>
+        android:layout_weight="2"/>
     <Button
         android:id="@+id/bt_splash_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button"
-        android:onClick="toErrorPage"
+        android:onClick="toMain"
         android:paddingBottom="8dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
@@ -28,5 +28,5 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="6"/>
+        android:layout_weight="1"/>
 </LinearLayout>
