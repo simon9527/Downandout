@@ -14,4 +14,5 @@ public class Constants {
     //httpNewsDetailArg:"channelId=xxx&page=1"
     public static final String httpNewsDetailUrl = "http://apis.baidu.com/showapi_open_bus/channel_news/search_news?channelId=";
 
+    public static final String httpJokeDetailUrl = "http://apis.baidu.com/showapi_open_bus/showapi_joke/joke_text?page=1";
 }

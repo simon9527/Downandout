@@ -28,7 +28,7 @@
             android:id="@+id/rb_news_content_two"
             style="@style/news_button_style"
             android:drawableTop="@drawable/news_worldbutton"
-            android:text="world"
+            android:text="sports"
             android:typeface="serif"/>
         <RadioButton
             android:id="@+id/rb_news_content_three"
