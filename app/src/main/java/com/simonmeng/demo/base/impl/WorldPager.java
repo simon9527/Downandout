@@ -72,6 +72,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
     public void initData() {
         tv_base_radio_button_pager_header.setText("Sports News");
         ib_title_menu.setVisibility(View.GONE);
+        ib_control_layout.setVisibility(View.GONE);
         TypefaceUtils.setCustomTypeface(mContext, tv_base_radio_button_pager_header);
         View view = View.inflate(mContext, R.layout.news_world,null);
         ViewUtils.inject(this, view);

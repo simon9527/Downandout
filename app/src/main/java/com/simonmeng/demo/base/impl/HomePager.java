@@ -64,6 +64,7 @@ public class HomePager extends BaseRadioButtonPager implements AdapterView.OnIte
     @Override
     public void initData() {
         tv_base_radio_button_pager_header.setText("Home");
+        ib_control_layout.setVisibility(View.GONE);
         TextView tvTest = new TextView(mContext);
         TypefaceUtils.setCustomTypeface(mContext, tv_base_radio_button_pager_header);
         // TODO: 2016/1/16 先初始化界面，把listview添加上，然后再访问网络，给listview加数据

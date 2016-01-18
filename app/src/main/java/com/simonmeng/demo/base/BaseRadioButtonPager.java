@@ -23,6 +23,7 @@ public class BaseRadioButtonPager implements OnClickListener {
     public TextView tv_base_radio_button_pager_header;
     public FrameLayout frameLayoutContent;
     public ImageButton ib_title_menu;
+    public ImageButton ib_control_layout;
 
     public BaseRadioButtonPager(Context context){
         this.mContext = context;
@@ -36,6 +37,7 @@ public class BaseRadioButtonPager implements OnClickListener {
         frameLayoutContent = (FrameLayout) view.findViewById(R.id.fl_base_radiobutton_pager_content);
         tv_base_radio_button_pager_header = (TextView)view.findViewById(R.id.tv_base_radio_button_pager_header);
         ib_title_menu = (ImageButton) view.findViewById(R.id.ib_title_menu);
+        ib_control_layout = (ImageButton) view.findViewById(R.id.ib_control_layout);
         ib_title_menu.setOnClickListener(this);
         return view;
     }

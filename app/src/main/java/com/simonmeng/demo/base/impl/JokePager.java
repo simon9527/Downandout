@@ -46,6 +46,7 @@ public class JokePager extends BaseRadioButtonPager {
         tv_base_radio_button_pager_header.setText("Joke");
         TypefaceUtils.setCustomTypeface(mContext, tv_base_radio_button_pager_header);
         ib_title_menu.setVisibility(View.GONE);
+        ib_control_layout.setVisibility(View.GONE);
 
         View view = View.inflate(mContext, R.layout.news_joke,null);
         ViewUtils.inject(this, view);
