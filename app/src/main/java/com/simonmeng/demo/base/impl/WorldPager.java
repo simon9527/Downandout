@@ -1,7 +1,9 @@
 package com.simonmeng.demo.base.impl;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -11,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,6 +32,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.simonmeng.demo.R;
+import com.simonmeng.demo.activity.WorldNewsDetailActivity;
 import com.simonmeng.demo.base.BaseRadioButtonPager;
 import com.simonmeng.demo.domain.NewsDetailBean;
 import com.simonmeng.demo.utils.CacheUtils;
@@ -39,7 +43,7 @@ import com.simonmeng.demo.utils.TypefaceUtils;
 import java.util.List;
 
 
-public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPageChangeListener {
+public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener {
     @ViewInject(R.id.vp_world_top_pic)
     private ViewPager topPicViewPager;
     @ViewInject(R.id.tv_world_top_desc)
@@ -56,6 +60,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
     private int SpaceOfPoint;
     private int selectPointBeginLeft;
     private InternalHandlerForImageCarousel mHandler;
+    private int currentSelectTopPicItem;
 
     public WorldPager(Context context) {
         super(context);
@@ -102,7 +107,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
-                if(responseInfo.result.length()>50){
+                if(responseInfo.result.length()>200){
                     CacheUtils.putString(mContext, id, responseInfo.result);
                     System.out.print(responseInfo.result);
                     processData(responseInfo.result);
@@ -134,12 +139,24 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
          * 故，再次执行时要移除Handler对应消息队列中的回调和消息---removeCallbacksAndMessages
          * */
         mHandler.removeCallbacksAndMessages(null);
-        mHandler.postDelayed(new AutoSwitchPagerRunnable(), 7000);
+        mHandler.postDelayed(new AutoSwitchPagerRunnable(), 5000);
 
         NewsListViewAdapter newsListViewAdapter = new NewsListViewAdapter();
         worldDetailListView.setAdapter(newsListViewAdapter);
+        worldDetailListView.setOnItemClickListener(this);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //注意：listview加个header，header占了position0
+        String detailUrl = contentlist.get(position-1+AMOUNTOFTOPPIC).link;
+        Intent intent=new Intent(mContext, WorldNewsDetailActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString("deatailUrl", detailUrl);
+        //bundle.putString("pass", "123");---可以通过bundle传多组数据
+        intent.putExtras(bundle);
+        mContext.startActivity(intent);
+    }
 
 
     class NewsListViewAdapter extends BaseAdapter{
@@ -201,6 +218,8 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
     public void onPageSelected(int position) {
         String title = contentlist.get(position).title;
         topDescTextView.setText(title);
+        currentSelectTopPicItem = topPicViewPager.getCurrentItem();
+
     }
     @Override
     public void onPageScrollStateChanged(int state) { }
@@ -237,6 +256,18 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
                 String url = contentlist.get(position).imageurls.get(0).url;
                 bitmapUtils.display(iv, url);
             }
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String detailUrl = contentlist.get(currentSelectTopPicItem).link;
+                    Intent intent=new Intent(mContext, WorldNewsDetailActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("deatailUrl", detailUrl);
+                    //bundle.putString("pass", "123");---可以通过bundle传多组数据
+                    intent.putExtras(bundle);
+                    mContext.startActivity(intent);
+                }
+            });
             return iv;
         }
     }
@@ -270,8 +301,8 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
          */
         @Override
         public void handleMessage(Message msg) {
-            int currentItem = (topPicViewPager.getCurrentItem() + 1) % AMOUNTOFTOPPIC;
-            topPicViewPager.setCurrentItem(currentItem);
+            int currentTopPicItem = (topPicViewPager.getCurrentItem() + 1) % AMOUNTOFTOPPIC;
+            topPicViewPager.setCurrentItem(currentTopPicItem);
             postDelayed(new AutoSwitchPagerRunnable(), 5000);
         }
     }

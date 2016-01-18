@@ -1,9 +1,12 @@
 package com.simonmeng.demo.base.impl;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.simonmeng.demo.R;
 import com.simonmeng.demo.activity.NewsActivity;
+import com.simonmeng.demo.activity.WorldNewsDetailActivity;
 import com.simonmeng.demo.base.BaseRadioButtonPager;
 import com.simonmeng.demo.base.BaseShowLeftHomePager;
 import com.simonmeng.demo.domain.NewsDetailBean;
@@ -39,13 +43,14 @@ import java.util.Locale;
  * HomePager extends BaseViewPager,it own BaseViewPager's layout,and fill HomePager's data.
  * BaseViewPager has FrameLayout,so HomePager can change the superclass's layout by setting its own layout
  */
-public class HomePager extends BaseRadioButtonPager {
+public class HomePager extends BaseRadioButtonPager implements AdapterView.OnItemClickListener {
     @ViewInject(R.id.lv_news_home)
     private ListView newsHomeListView;
     private List<NewsDetailBean.Contentlist> contentlist;
     private List<BaseShowLeftHomePager> pagerList;
     private List<NewsListBean.ChannelList> channelList;
-
+    private final String hadReadIDArrayKey = "had_read_id_array_key";
+    private NewsHomeListViewAdapter newsHomeListViewAdapter;
     private String inputChannelId;
     public HomePager(Context context) {
         super(context);
@@ -84,7 +89,7 @@ public class HomePager extends BaseRadioButtonPager {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
-                if(responseInfo.result.length()>50) {
+                if(responseInfo.result.length()>200) {
                     CacheUtils.putString(mContext, "channelList", responseInfo.result);
                     System.out.print(responseInfo.result);
                     processNewsListData(responseInfo.result);
@@ -121,7 +126,7 @@ public class HomePager extends BaseRadioButtonPager {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
-                if(responseInfo.result.length()>50) {
+                if(responseInfo.result.length()>200) {
                     CacheUtils.putString(mContext, inputChannelId, responseInfo.result);
                     String aa = responseInfo.result;
                     System.out.print(responseInfo.result);
@@ -144,9 +149,32 @@ public class HomePager extends BaseRadioButtonPager {
 //        //给viewpager加一个PageChange监听这样可以控制小绿点和它同步滑动
 //        topPicViewPager.setOnPageChangeListener(this);
         contentlist = newsDetailBean.showapi_res_body.pagebean.contentlist;
-        NewsHomeListViewAdapter newsHomeListViewAdapter = new NewsHomeListViewAdapter();
+        newsHomeListViewAdapter = new NewsHomeListViewAdapter();
         newsHomeListView.setAdapter(newsHomeListViewAdapter);
+        newsHomeListView.setOnItemClickListener(this);
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //标记已读：先取出以前存储的id的array, 然后拼起来, 再添加进去
+        String link = contentlist.get(position).link;
+        String hadReadIDArray = CacheUtils.getString(mContext, hadReadIDArrayKey, null);
+        if(!TextUtils.isEmpty(hadReadIDArrayKey)) {
+            hadReadIDArray = hadReadIDArray + "," +link;
+        } else {
+            hadReadIDArray = link;
+        }
+        CacheUtils.putString(mContext, hadReadIDArrayKey, hadReadIDArray);
+        //已读--文字颜色变灰--通知listview发生变化--所以Adapter就会被调用--在Adapter的getView中添加颜色变灰的方法
+        newsHomeListViewAdapter.notifyDataSetChanged();
+
+        String homeNewsDetailUrl = contentlist.get(position).link;
+        Intent intent=new Intent(mContext, WorldNewsDetailActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putString("deatailUrl", homeNewsDetailUrl);
+        intent.putExtras(bundle);
+        mContext.startActivity(intent);
     }
 
     class NewsHomeListViewAdapter extends BaseAdapter{
@@ -187,6 +215,14 @@ public class HomePager extends BaseRadioButtonPager {
             }
             newsHomeViewHolder.tv_news_home_cate.setText(contentlist.get(position).channelName);
             newsHomeViewHolder.tv_news_home_desc.setText(contentlist.get(position).desc);
+            // 判断是否已读，并对应改变颜色
+            String hadReadIDArray = CacheUtils.getString(mContext, hadReadIDArrayKey, null);
+            if(!TextUtils.isEmpty(hadReadIDArray) && hadReadIDArray.contains(contentlist.get(position).link)) {
+                newsHomeViewHolder.tv_news_home_desc.setTextColor(mContext.getResources().getColor(R.color.yahooDarkGray));
+            } else {
+                //写这个else：当用户清空缓存，应该把颜色设置回来，不写也行，严谨一些
+                newsHomeViewHolder.tv_news_home_desc.setTextColor(mContext.getResources().getColor(R.color.commo_text_color));
+            }
             return convertView;
         }
     }

@@ -65,7 +65,7 @@ public class JokePager extends BaseRadioButtonPager {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
-                if(responseInfo.result.length()>50){
+                if(responseInfo.result.length()>200){
                     CacheUtils.putString(mContext, "joke", responseInfo.result);
                     String aa = responseInfo.result;
                     System.out.print(aa);
