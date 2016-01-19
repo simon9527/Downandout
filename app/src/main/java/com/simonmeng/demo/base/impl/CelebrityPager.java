@@ -43,7 +43,7 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
     private ListView celebrityListView;
     @ViewInject(R.id.grid_view)
     private StaggeredGridView gridView;
-    private int isXLayout = 0;
+    private String isXLayout = "isXLayout";
     private List<NewsDetailBean.Contentlist> contentlist;
     private BitmapUtils bitmapUtils;
     public CelebrityPager(Context context) {
@@ -62,10 +62,10 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
         ib_control_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (isXLayout){
+                switch (CacheUtils.getInt(mContext,"isXLayout",0)){
                     case 0:
                         // 切换到列表页面
-                        isXLayout = 1;
+                        CacheUtils.putInt(mContext,isXLayout,1);
                         ib_control_layout.setImageResource(R.mipmap.news_cele_list);
                         celebrityGridView.setVisibility(View.GONE);
                         gridView.setVisibility(View.GONE);
@@ -74,7 +74,7 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
                     break;
                     case 1:
                         // 切换到瀑布流页面
-                        isXLayout = 2;
+                        CacheUtils.putInt(mContext,isXLayout,2);
                         ib_control_layout.setImageResource(R.mipmap.news_cele_list);
                         celebrityListView.setVisibility(View.GONE);
                         celebrityGridView.setVisibility(View.GONE);
@@ -83,7 +83,7 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
                         break;
                     case 2:
                         // 切换到网格页面
-                        isXLayout = 0;
+                        CacheUtils.putInt(mContext,isXLayout,0);
                         ib_control_layout.setImageResource(R.mipmap.news_cele_list);
                         gridView.setVisibility(View.GONE);
                         celebrityListView.setVisibility(View.GONE);
@@ -132,20 +132,68 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
         Gson gson = new Gson();
         NewsDetailBean newsDetailBean = gson.fromJson(json, NewsDetailBean.class);
         contentlist =  newsDetailBean.showapi_res_body.pagebean.contentlist;
+        setXLayout();
 
 
-
-        CelebrityGridViewAdapter celebrityGridViewAdapter = new CelebrityGridViewAdapter();
-        celebrityGridView.setAdapter(celebrityGridViewAdapter);
-        celebrityGridView.setOnItemClickListener(this);
-        celebrityListView.setOnItemClickListener(this);
-        gridView.setOnItemClickListener(this);
+//        CelebrityGridViewAdapter celebrityGridViewAdapter = new CelebrityGridViewAdapter();
+//        celebrityGridView.setAdapter(celebrityGridViewAdapter);
+//        celebrityGridView.setOnItemClickListener(this);
+//        celebrityListView.setOnItemClickListener(this);
+//        gridView.setOnItemClickListener(this);
 //        gridView.setAdapter(celebrityGridViewAdapter);
 //        gridView.setOnItemClickListener(this);
 //        gridView.setOnItemClickListener(this);
     }
 
-    // TODO: 2016/1/18 item点击事件
+
+    //*********************************************
+
+    public void setXLayout() {
+        switch (CacheUtils.getInt(mContext,"isXLayout",0)){
+            case 0:
+                // GridView页面
+                CelebrityGridViewAdapter celebrityGridViewAdapter = new CelebrityGridViewAdapter();
+                celebrityGridView.setAdapter(celebrityGridViewAdapter);
+
+                celebrityGridView.setOnItemClickListener(this);
+                celebrityListView.setOnItemClickListener(this);
+                gridView.setOnItemClickListener(this);
+
+                celebrityListView.setVisibility(View.GONE);
+                gridView.setVisibility(View.GONE);
+                break;
+            case 1:
+                // ListView页面
+                CelebrityGridViewAdapter celebrityLridViewAdapter = new CelebrityGridViewAdapter();
+                celebrityListView.setAdapter(celebrityLridViewAdapter);
+
+                celebrityGridView.setOnItemClickListener(this);
+                celebrityListView.setOnItemClickListener(this);
+                gridView.setOnItemClickListener(this);
+
+                celebrityGridView.setVisibility(View.GONE);
+                gridView.setVisibility(View.GONE);
+                break;
+            case 2:
+                // StaggeredGridView页面
+                WaterFallAdapter waterFallAdapter = new WaterFallAdapter();
+                gridView.setAdapter(waterFallAdapter);
+
+                celebrityGridView.setOnItemClickListener(this);
+                celebrityListView.setOnItemClickListener(this);
+                gridView.setOnItemClickListener(this);
+
+                celebrityListView.setVisibility(View.GONE);
+                celebrityGridView.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    //**********************************************
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String celbrityUrl = contentlist.get(position).link;

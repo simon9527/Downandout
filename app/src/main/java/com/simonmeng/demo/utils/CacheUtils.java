@@ -24,6 +24,24 @@ public class CacheUtils {
         }
         return mSharedPreferences.getBoolean(key,defValue);
     }
+    public static void putInt(Context context, String key, int value){
+        //mSharedPreferences设置为static，更易于调用，这样只要在使用前判断是否存在，如果不存在，创建，存在，直接用。
+        if(mSharedPreferences == null){
+            mSharedPreferences = context.getSharedPreferences(CACHE_FILE_NAME, Context.MODE_PRIVATE);
+        }
+        mSharedPreferences.edit().putInt(key, value).commit();
+    }
+
+    public static int getInt(Context context, String key, int defValue){
+        if(mSharedPreferences == null){
+            mSharedPreferences = context.getSharedPreferences(CACHE_FILE_NAME, Context.MODE_PRIVATE);
+        }
+        return mSharedPreferences.getInt(key,defValue);
+    }
+
+
+
+
 
     public static void putString(Context context, String key, String value){
         //mSharedPreferences设置为static，更易于调用，这样只要在使用前判断是否存在，如果不存在，创建，存在，直接用。
