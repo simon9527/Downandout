@@ -66,7 +66,7 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
                     case 0:
                         // 切换到列表页面
                         isXLayout = 1;
-                        ib_control_layout.setImageResource(R.mipmap.cele_grid);
+                        ib_control_layout.setImageResource(R.mipmap.news_cele_list);
                         celebrityGridView.setVisibility(View.GONE);
                         gridView.setVisibility(View.GONE);
                         celebrityListView.setVisibility(View.VISIBLE);
@@ -75,7 +75,7 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
                     case 1:
                         // 切换到瀑布流页面
                         isXLayout = 2;
-                        ib_control_layout.setImageResource(R.mipmap.cele_list);
+                        ib_control_layout.setImageResource(R.mipmap.news_cele_list);
                         celebrityListView.setVisibility(View.GONE);
                         celebrityGridView.setVisibility(View.GONE);
                         gridView.setVisibility(View.VISIBLE);
@@ -84,7 +84,7 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
                     case 2:
                         // 切换到网格页面
                         isXLayout = 0;
-                        ib_control_layout.setImageResource(R.mipmap.cele_list);
+                        ib_control_layout.setImageResource(R.mipmap.news_cele_list);
                         gridView.setVisibility(View.GONE);
                         celebrityListView.setVisibility(View.GONE);
                         celebrityGridView.setVisibility(View.VISIBLE);

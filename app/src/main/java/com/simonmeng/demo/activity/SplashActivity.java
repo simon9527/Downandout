@@ -27,7 +27,7 @@ public class SplashActivity extends Activity {
 
     public void toMain(View view){
         Intent openErrorPageIntent = new Intent();
-        openErrorPageIntent.setClass(SplashActivity.this, MainActivity.class);
+        openErrorPageIntent.setClass(SplashActivity.this, NewsActivity.class);
         startActivity(openErrorPageIntent);
         finish();
     }

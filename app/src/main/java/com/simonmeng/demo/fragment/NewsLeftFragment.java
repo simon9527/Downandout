@@ -11,8 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.simonmeng.demo.R;
+import com.simonmeng.demo.activity.MainActivity;
 import com.simonmeng.demo.activity.NewsActivity;
 import com.simonmeng.demo.activity.NewsSettingActivity;
+import com.simonmeng.demo.activity.WeatherActivity;
 import com.simonmeng.demo.base.BaseFragment;
 import com.simonmeng.demo.base.impl.HomePager;
 import com.simonmeng.demo.domain.NewsListBean;
@@ -32,6 +34,8 @@ public class NewsLeftFragment extends BaseFragment implements AdapterView.OnItem
     private int currentEnalbledPosition;
     private NewsLeftAdapter newsLeftAdapter;
     private TextView newsLeftSetting;
+    private TextView tv_news_left_weather;
+    private TextView tv_news_left_head;
     public List<String> channelIDList;
 
 
@@ -54,14 +58,17 @@ public class NewsLeftFragment extends BaseFragment implements AdapterView.OnItem
         LinearLayout testss = (LinearLayout) View.inflate(mActivity,R.layout.news_left_slidingmenu,null);
         mListView = (ListView) testss.findViewById(R.id.lv_testss);
         newsLeftSetting = (TextView) testss.findViewById(R.id.tv_news_left_setting);
-
+        tv_news_left_weather = (TextView) testss.findViewById(R.id.tv_news_left_weather);
+        tv_news_left_head = (TextView) testss.findViewById(R.id.tv_news_left_head);
         newsLeftSetting.setOnClickListener(this);
+        tv_news_left_weather.setOnClickListener(this);
+        tv_news_left_head.setOnClickListener(this);
         /**给Listview添加点击事件，哪个item被点击，就把enabled设为true，就变成绿色*/
         mListView.setOnItemClickListener(this);
         return testss;
     }
     public void refreshListView(){
-        String selectedChannelID = CacheUtils.getString(mActivity,"had_selected_channel_id_array_key",null);
+        String selectedChannelID = CacheUtils.getString(mActivity, "had_selected_channel_id_array_key", null);
         String[] arr=selectedChannelID.split(",");
         channelIDList = Arrays.asList(arr);
         NewsLeftAdapter adapter = new NewsLeftAdapter();
@@ -116,13 +123,29 @@ public class NewsLeftFragment extends BaseFragment implements AdapterView.OnItem
     // TODO: 2016/1/19 setting点击事件
     @Override
     public void onClick(View v) {
-        Intent intent=new Intent(mActivity, NewsSettingActivity.class);
-        Bundle bundle=new Bundle();
-        ArrayList list = new ArrayList(); //这个list用于在budnle中传递 需要传递的ArrayList<Object>
-        list.add(channelList);
-        bundle.putSerializable("channelList", list);
-        intent.putExtras(bundle);
-        mActivity.startActivity(intent);
+        switch (v.getId()){
+            case R.id.tv_news_left_setting:
+                Intent intent=new Intent(mActivity, NewsSettingActivity.class);
+                Bundle bundle=new Bundle();
+                ArrayList list = new ArrayList(); //这个list用于在budnle中传递 需要传递的ArrayList<Object>
+                list.add(channelList);
+                bundle.putSerializable("channelList", list);
+                intent.putExtras(bundle);
+                mActivity.startActivity(intent);
+                break;
+            case R.id.tv_news_left_weather:
+                Intent weatherIntent = new Intent(mActivity, WeatherActivity.class);
+                mActivity.startActivity(weatherIntent);
+                break;
+
+            case R.id.tv_news_left_head:
+                Intent mainIntent = new Intent(mActivity, MainActivity.class);
+                mActivity.startActivity(mainIntent);
+                break;
+            default:
+                break;
+        }
+
     }
 
     public class NewsLeftAdapter extends BaseAdapter {
