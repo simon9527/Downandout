@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.etsy.android.grid.StaggeredGridView;
 import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -40,7 +41,9 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
     private GridView celebrityGridView;
     @ViewInject(R.id.lv_celebrity)
     private ListView celebrityListView;
-    private boolean isGrid = true;
+    @ViewInject(R.id.grid_view)
+    private StaggeredGridView gridView;
+    private int isXLayout = 0;
     private List<NewsDetailBean.Contentlist> contentlist;
     private BitmapUtils bitmapUtils;
     public CelebrityPager(Context context) {
@@ -59,21 +62,36 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
         ib_control_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isGrid) {
-                    // 切换到列表页面
-                    isGrid = false;
-                    ib_control_layout.setImageResource(R.mipmap.cele_grid);
-                    celebrityGridView.setVisibility(View.GONE);
-                    celebrityListView.setVisibility(View.VISIBLE);
-                    celebrityListView.setAdapter(new CelebrityGridViewAdapter());
-                   ;
-                } else {
-                    // 切换到网格页面
-                    isGrid = true;
-                    ib_control_layout.setImageResource(R.mipmap.cele_list);
-                    celebrityListView.setVisibility(View.GONE);
-                    celebrityGridView.setVisibility(View.VISIBLE);
-                    celebrityListView.setAdapter(new CelebrityGridViewAdapter());
+                switch (isXLayout){
+                    case 0:
+                        // 切换到列表页面
+                        isXLayout = 1;
+                        ib_control_layout.setImageResource(R.mipmap.cele_grid);
+                        celebrityGridView.setVisibility(View.GONE);
+                        gridView.setVisibility(View.GONE);
+                        celebrityListView.setVisibility(View.VISIBLE);
+                        celebrityListView.setAdapter(new CelebrityGridViewAdapter());
+                    break;
+                    case 1:
+                        // 切换到瀑布流页面
+                        isXLayout = 2;
+                        ib_control_layout.setImageResource(R.mipmap.cele_list);
+                        celebrityListView.setVisibility(View.GONE);
+                        celebrityGridView.setVisibility(View.GONE);
+                        gridView.setVisibility(View.VISIBLE);
+                        gridView.setAdapter(new WaterFallAdapter());
+                        break;
+                    case 2:
+                        // 切换到网格页面
+                        isXLayout = 0;
+                        ib_control_layout.setImageResource(R.mipmap.cele_list);
+                        gridView.setVisibility(View.GONE);
+                        celebrityListView.setVisibility(View.GONE);
+                        celebrityGridView.setVisibility(View.VISIBLE);
+                        celebrityGridView.setAdapter(new CelebrityGridViewAdapter());
+                        break;
+                    default:
+                        break;
                 }
             }
         });
@@ -121,6 +139,10 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
         celebrityGridView.setAdapter(celebrityGridViewAdapter);
         celebrityGridView.setOnItemClickListener(this);
         celebrityListView.setOnItemClickListener(this);
+        gridView.setOnItemClickListener(this);
+//        gridView.setAdapter(celebrityGridViewAdapter);
+//        gridView.setOnItemClickListener(this);
+//        gridView.setOnItemClickListener(this);
     }
 
     // TODO: 2016/1/18 item点击事件
@@ -180,4 +202,47 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
         public ImageView iv_celebrity_item;
         public TextView tv_celebrity_item;
     }
+
+    class WaterFallAdapter extends BaseAdapter{
+        @Override
+        public int getCount() {
+            return contentlist.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            CelebrityViewHolder celebrityViewHolder = null;
+            if(celebrityViewHolder == null){
+                convertView = View.inflate(mContext,R.layout.item_waterfall_celebrity,null);
+                celebrityViewHolder = new CelebrityViewHolder();
+                celebrityViewHolder.iv_celebrity_item = (ImageView)convertView.findViewById(R.id.iv_waterfall_celebrity_item);
+//                celebrityViewHolder.tv_celebrity_item = (TextView) convertView.findViewById(R.id.tv_waterfall_celebrity_item);
+                convertView.setTag(celebrityViewHolder);
+            }else {
+                celebrityViewHolder = (CelebrityViewHolder) convertView.getTag();
+            }
+//            celebrityViewHolder.tv_celebrity_item.setText(contentlist.get(position).title);
+            if((contentlist.get(position).imageurls).size()!=0){
+                String url = contentlist.get(position).imageurls.get(0).url;
+                System.out.print(url);
+                bitmapUtils.display(celebrityViewHolder.iv_celebrity_item,url);
+            }else{
+                celebrityViewHolder.iv_celebrity_item.setImageResource(R.mipmap.news_toppic_default);
+            }
+            //celebrityViewHolder.iv_celebrity_item.setImageResource(R.mipmap.news_default);
+
+            return convertView;
+        }
+    }
+
 }
