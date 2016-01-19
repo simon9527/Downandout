@@ -1,11 +1,12 @@
 package com.simonmeng.demo.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/1/10.
  */
-public class NewsListBean {
+public class NewsListBean implements Serializable {
     //0阶---------
     public Showapi showapi_res_body;
     public int showapi_res_code;
@@ -18,7 +19,7 @@ public class NewsListBean {
     }
 
     //1阶---------
-    public class ChannelList{
+    public class ChannelList implements Serializable{
         public String channelId;
         public String name;
     }

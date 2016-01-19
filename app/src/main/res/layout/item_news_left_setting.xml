@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- enabled的属性默认是false，这样当选中后变为true，颜色就是绿色，这样它可以一直保持-->
+<!--使用LinearyLayout和ImageView都没有enabled属性，TextView有，并且它可以加图片drawableLeft-->
+<!--这样在代码中可以给每个条目加一个监听，当点击到enabled就是true，这样它的颜色会一直保持绿色，直到你点击其他的-->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_item_news_left_setting"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:drawableLeft="@drawable/news_left_imagebg"
+    android:drawablePadding="10dip"
+    android:enabled="false"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="15dp"
+
+    android:gravity="center_vertical"
+    android:text="新闻"
+    android:textColor="@color/news_left_textcolor"
+    android:textSize="15sp">
+
+</TextView>

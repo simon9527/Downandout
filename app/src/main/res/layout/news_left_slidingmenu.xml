@@ -13,11 +13,15 @@
         android:layout_weight="1"
         android:background="@color/Black"
         android:orientation="horizontal">
-        <ImageView
+        <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:src="@mipmap/a"
+            android:text="Simon's Demo"
+            android:textColor="@color/tealGreen"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:textStyle="bold"
             android:layout_gravity="center"/>
     </LinearLayout>
     <ListView
@@ -51,7 +55,7 @@
             android:layout_marginLeft="40dp"
             android:background="@drawable/news_left_setting"/>
         <TextView
-            android:id="@+id/tv_item_news_left_fragment"
+            android:id="@+id/tv_news_left_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

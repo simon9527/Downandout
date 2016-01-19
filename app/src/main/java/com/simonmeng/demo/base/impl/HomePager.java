@@ -35,6 +35,7 @@ import com.simonmeng.demo.utils.TypefaceUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -161,7 +162,7 @@ public class HomePager extends BaseRadioButtonPager implements AdapterView.OnIte
         //标记已读：先取出以前存储的id的array, 然后拼起来, 再添加进去
         String link = contentlist.get(position).link;
         String hadReadIDArray = CacheUtils.getString(mContext, hadReadIDArrayKey, null);
-        if(!TextUtils.isEmpty(hadReadIDArrayKey)) {
+        if(!TextUtils.isEmpty(hadReadIDArray)) {
             hadReadIDArray = hadReadIDArray + "," +link;
         } else {
             hadReadIDArray = link;
@@ -253,11 +254,20 @@ public class HomePager extends BaseRadioButtonPager implements AdapterView.OnIte
      * 点击NewsLeftFragment的item --NewsActivity--NewsContentFragment--HomePager--switchPagerRespondLeft()
      * */
     public  void switchPagerRespondLeft(int position){
-        inputChannelId = channelList.get(position).channelId;
+       // inputChannelId = channelList.get(position).channelId;
+        //这里默认就不要null，毕竟通过channeList可以去到id，还是做个默认值吧，省得空指针
+        //sharepreference存储的是name，这里需要通过name找到id，因为定义的getNewsDetailData()处理id的。
+        String selectedChannelID = CacheUtils.getString(mContext,"had_selected_channel_id_array_key",channelList.get(0).name);
+        String[] arr=selectedChannelID.split(",");
+        List<String>  channelnameList = Arrays.asList(arr);
+        String channelName = channelnameList.get(position);
+        for(int i=0;i<channelList.size();i++){
+            if(channelList.get(i).name.equalsIgnoreCase(channelName)){
+                inputChannelId = channelList.get(i).channelId;
+            }
+        }
+
         getNewsDetailData(Constants.httpNewsDetailUrl,inputChannelId);
-
-
-
 
         // TODO: 2016/1/13 因为没有创建过个界面，就一个，所以，当调用此方法，传个position会出空指针，就是不管传进来谁，都取第一个
 //        BaseShowLeftHomePager pager = pagerList.get(0);
