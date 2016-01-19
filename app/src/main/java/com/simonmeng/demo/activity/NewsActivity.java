@@ -35,6 +35,7 @@ public class NewsActivity extends SlidingFragmentActivity {
 
         initFragment();
 
+        GetNewsActivity.NewsActiviy = this;
 
 
     }

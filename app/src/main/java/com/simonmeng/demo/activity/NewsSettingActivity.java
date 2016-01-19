@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.simonmeng.demo.R;
 import com.simonmeng.demo.domain.NewsListBean;
+import com.simonmeng.demo.fragment.NewsLeftFragment;
 import com.simonmeng.demo.utils.CacheUtils;
 
 import java.util.ArrayList;
@@ -39,9 +40,13 @@ public class NewsSettingActivity extends AppCompatActivity implements AdapterVie
         newsSettingGridView.setOnItemClickListener(this);
     }
 
-
-
-
+    @Override
+    protected void onDestroy() {
+        NewsActivity newsActivity = (NewsActivity) GetNewsActivity.NewsActiviy;
+        NewsLeftFragment newsLeftFragment= newsActivity.getNewsLeftFragment();
+        newsLeftFragment.setNewsDataList(channelList);
+        super.onDestroy();
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

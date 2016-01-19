@@ -22,16 +22,7 @@
             android:gravity="center"
             android:textColor="@color/tealGreen"
             android:textSize="20sp" />
-        <TextView
-            android:id="@+id/tv_news_setting_done"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_centerInParent="true"
-            android:text="Done"
-            android:gravity="center"
-            android:textColor="@color/tealGreen"
-            android:textSize="20sp"/>
+
     </LinearLayout>
     <!--<ListView-->
         <!--android:id="@+id/lv_news_setting"-->
