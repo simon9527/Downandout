@@ -139,6 +139,7 @@ public class WeatherActivity extends Activity {
                     break;
                 case 2://轻橙
                     ll_weather_background.setBackgroundColor(Color.parseColor("#FF7F24"));
+//                    ll_weather_background.setBackgroundDrawable(getResources().getDrawable(R.drawable.weather_pm_a_background));
                     break;
                 case 3://中红
                     ll_weather_background.setBackgroundColor(Color.parseColor("#CD5C5C"));
@@ -375,9 +376,9 @@ public class WeatherActivity extends Activity {
             viewHolder.tv_item_weatherforcast_max.setTypeface(face);
             if (cityWeather != null) {
                 List<WeatherBean.Daily_forecast> daily_forecasts = cityWeather.daily_forecast;
-                viewHolder.tv_item_weatherforcast_date.setText(daily_forecasts.get(position).date);
-                viewHolder.tv_item_weatherforcast_min.setText("Mix ↓" + daily_forecasts.get(position).tmp.min + "°");
-                viewHolder.tv_item_weatherforcast_max.setText("Max ↑" + daily_forecasts.get(position).tmp.max + "°");
+                viewHolder.tv_item_weatherforcast_date.setText(daily_forecasts.get(position+1).date);
+                viewHolder.tv_item_weatherforcast_min.setText("Mix ↓" + daily_forecasts.get(position+1).tmp.min + "°");
+                viewHolder.tv_item_weatherforcast_max.setText("Max ↑" + daily_forecasts.get(position+1).tmp.max + "°");
                 return view;
             } else {
                 return null;

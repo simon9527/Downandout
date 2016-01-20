@@ -32,6 +32,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.simonmeng.demo.R;
+import com.simonmeng.demo.activity.CelebrityDetailActivity;
 import com.simonmeng.demo.activity.WorldNewsDetailActivity;
 import com.simonmeng.demo.base.BaseRadioButtonPager;
 import com.simonmeng.demo.domain.NewsDetailBean;
@@ -40,6 +41,7 @@ import com.simonmeng.demo.utils.Constants;
 import com.simonmeng.demo.utils.DpInterconvertPxUtils;
 import com.simonmeng.demo.utils.TypefaceUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -151,11 +153,19 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //注意：listview加个header，header占了position0
-        String detailUrl = contentlist.get(position-1+AMOUNTOFTOPPIC).link;
-        Intent intent=new Intent(mContext, WorldNewsDetailActivity.class);
+//        String detailUrl = contentlist.get(position-1+AMOUNTOFTOPPIC).link;
+//        Intent intent=new Intent(mContext, WorldNewsDetailActivity.class);
+//        Bundle bundle=new Bundle();
+//        bundle.putString("deatailUrl", detailUrl);
+//        //bundle.putString("pass", "123");---可以通过bundle传多组数据
+//        intent.putExtras(bundle);
+//        mContext.startActivity(intent);
+        Intent intent=new Intent(mContext, CelebrityDetailActivity.class);
         Bundle bundle=new Bundle();
-        bundle.putString("deatailUrl", detailUrl);
-        //bundle.putString("pass", "123");---可以通过bundle传多组数据
+        ArrayList list = new ArrayList(); //这个list用于在budnle中传递 需要传递的ArrayList<Object>
+        NewsDetailBean.Contentlist content = contentlist.get(position-1+AMOUNTOFTOPPIC);
+        list.add(content);
+        bundle.putSerializable("content", list);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
     }
