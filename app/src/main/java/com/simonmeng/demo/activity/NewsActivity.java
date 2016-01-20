@@ -2,11 +2,11 @@ package com.simonmeng.demo.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +20,8 @@ import com.simonmeng.demo.fragment.NewsLeftFragment;
 public class NewsActivity extends SlidingFragmentActivity {
     private final String NEWS_CONTENT_TAG = "content";
     private final String NEWS_LEFT_TAG = "left";
+    private AlertDialog dialog;
 
-
-    TextView tv_news_slogon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,26 +93,50 @@ public class NewsActivity extends SlidingFragmentActivity {
     }
     protected void dialog() {
         AlertDialog.Builder builder =  new AlertDialog.Builder(NewsActivity.this);
-        builder.setMessage("确定要退出吗?");
-        builder.setTitle("提示");
-        builder.setPositiveButton("确认",
-                new android.content.DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        //AccoutList.this.finish();
-                        //System.exit(1);
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                    }
-                });
-        builder.setNegativeButton("取消",
-                new android.content.DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.create().show();
+        View view = View.inflate(getApplicationContext(),R.layout.dialog_exit_hint,null);
+        TextView okTextView = (TextView) view.findViewById(R.id.tv_exit_hint_ok);
+        TextView cancelTextView = (TextView) view.findViewById(R.id.tv_exit_hint_cancel);
+
+        okTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                //AccoutList.this.finish();
+                //System.exit(1);
+                android.os.Process.killProcess(android.os.Process.myPid());
+
+            }
+        });
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        //builder.setView(view);直接setView有黑边，dialog.setView再加入参数--可去除黑边
+        dialog = builder.create();
+        dialog.setView(view,0,0,0,0);
+        dialog.show();
+
+//        builder.setPositiveButton("少说废话",
+//                new android.content.DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                        //AccoutList.this.finish();
+//                        //System.exit(1);
+//                        android.os.Process.killProcess(android.os.Process.myPid());
+//                    }
+//                });
+//        builder.setNegativeButton("我手滑了",
+//                new android.content.DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+
     }
 }
 
