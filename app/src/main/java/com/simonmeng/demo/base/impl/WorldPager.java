@@ -76,6 +76,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         TypefaceUtils.setCustomTypeface(mContext, tv_base_radio_button_pager_header);
         View view = View.inflate(mContext, R.layout.news_world,null);
         ViewUtils.inject(this, view);
+
         View newsHeader = View.inflate(mContext,R.layout.news_world_carousel_header,null);
         ViewUtils.inject(this, newsHeader);
         worldDetailListView.addHeaderView(newsHeader);

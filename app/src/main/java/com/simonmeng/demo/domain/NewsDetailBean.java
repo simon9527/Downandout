@@ -1,11 +1,14 @@
 package com.simonmeng.demo.domain;
 
+import org.w3c.dom.Comment;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/1/10.
  */
-public class NewsDetailBean {
+public class NewsDetailBean implements Serializable{
     //0阶---------
     public Showapi showapi_res_body;
     public int showapi_res_code;
@@ -17,7 +20,7 @@ public class NewsDetailBean {
     }
 
     //1阶---------
-    public class Pagebean{
+    public class Pagebean implements Serializable{
         public double allNum;
         public int allPages;
         public List<Contentlist> contentlist;
@@ -26,7 +29,7 @@ public class NewsDetailBean {
     }
 
     //2阶---------
-    public class Contentlist{
+    public class Contentlist implements Serializable{
         public String channelId;
         public String channelName;
         public Comment comment;
@@ -41,13 +44,13 @@ public class NewsDetailBean {
     }
 
     //3阶---------
-    public class Imageurls{
+    public class Imageurls implements Serializable{
         public int height;
         public int width;
         public String url;
     }
 
-    public class Comment{
+    public class Commentim implements Serializable{
         public int count;
     }
 }

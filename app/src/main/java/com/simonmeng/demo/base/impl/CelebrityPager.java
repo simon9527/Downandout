@@ -26,13 +26,14 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.simonmeng.demo.R;
-import com.simonmeng.demo.activity.WorldNewsDetailActivity;
+import com.simonmeng.demo.activity.CelebrityDetailActivity;
 import com.simonmeng.demo.base.BaseRadioButtonPager;
 import com.simonmeng.demo.domain.NewsDetailBean;
 import com.simonmeng.demo.utils.CacheUtils;
 import com.simonmeng.demo.utils.Constants;
 import com.simonmeng.demo.utils.TypefaceUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -196,10 +197,18 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String celbrityUrl = contentlist.get(position).link;
-        Intent intent=new Intent(mContext, WorldNewsDetailActivity.class);
+//        String celbrityUrl = contentlist.get(position).link;
+//        Intent intent=new Intent(mContext, WorldNewsDetailActivity.class);
+//        Bundle bundle=new Bundle();
+//        bundle.putString("deatailUrl", celbrityUrl);
+//        intent.putExtras(bundle);
+//        mContext.startActivity(intent);
+        Intent intent=new Intent(mContext, CelebrityDetailActivity.class);
         Bundle bundle=new Bundle();
-        bundle.putString("deatailUrl", celbrityUrl);
+        ArrayList list = new ArrayList(); //这个list用于在budnle中传递 需要传递的ArrayList<Object>
+        NewsDetailBean.Contentlist content = contentlist.get(position);
+        list.add(content);
+        bundle.putSerializable("content", list);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
     }

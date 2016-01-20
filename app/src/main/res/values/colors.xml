@@ -14,6 +14,7 @@
     <color name="colorBrown">#696969</color>
     <color name="Brownness">#727272</color>
     <color name="commo_text_color">#ff333333</color>
+    <color name="weatherforcast_bg">#99000000</color>
     <color name="Black">#000000</color>
     <color name="lightBlack">#212121</color>
     <color name="colorGreen">#4CA656</color>

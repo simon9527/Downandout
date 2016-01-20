@@ -40,7 +40,8 @@
         <activity android:name=".activity.SearchWeatherActivity" />
         <activity android:name=".activity.ErrorPageActivity" />
         <activity android:name=".activity.WorldNewsDetailActivity" />
-        <activity android:name=".activity.NewsSettingActivity"></activity>
+        <activity android:name=".activity.NewsSettingActivity" />
+        <activity android:name=".activity.CelebrityDetailActivity"></activity>
     </application>
 
 </manifest>

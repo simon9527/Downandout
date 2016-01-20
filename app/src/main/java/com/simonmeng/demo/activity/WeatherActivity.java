@@ -1,30 +1,30 @@
 package com.simonmeng.demo.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.simonmeng.demo.R;
 import com.simonmeng.demo.domain.WeatherBean;
 import com.simonmeng.demo.utils.CacheUtils;
@@ -43,13 +43,17 @@ public class WeatherActivity extends Activity {
     public WeatherBean.WeatherDetail cityWeather;
 
 
-    LinearLayout ll_weather_background;
+    RelativeLayout ll_weather_background;
     ListView lv_weather_forecastweather;
+
+    @ViewInject(R.id.tv_weather_location)
     TextView tv_weather_location;
+    @ViewInject(R.id.tv_weather_temperature)
     TextView tv_weather_temperature;
+    @ViewInject(R.id.tv_weather_pm)
     TextView tv_weather_pm;
+    @ViewInject(R.id.tv_weather_maxmin)
     TextView tv_weather_maxmin;
-    LinearLayout ll_weather_listheader;
 
 
     @Override
@@ -57,11 +61,11 @@ public class WeatherActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         tv_weather_location = (TextView) findViewById(R.id.tv_weather_location);
-        tv_weather_temperature = (TextView) findViewById(R.id.tv_weather_temperature);
-        tv_weather_pm = (TextView) findViewById(R.id.tv_weather_pm);
-        tv_weather_maxmin = (TextView) findViewById(R.id.tv_weather_maxmin);
-        ll_weather_background = (LinearLayout) findViewById(R.id.ll_weather_background);
+        ll_weather_background = (RelativeLayout) findViewById(R.id.rl_weather_background);
         lv_weather_forecastweather = (ListView) findViewById(R.id.lv_weather_forecastweather);
+        View weatherListviewHeader = View.inflate(this,R.layout.activity_weather_listview_header,null);
+        ViewUtils.inject(this, weatherListviewHeader);
+        lv_weather_forecastweather.addHeaderView(weatherListviewHeader);
 
 
         //设置字体，typeface字体。
@@ -96,11 +100,14 @@ public class WeatherActivity extends Activity {
     protected void processWeatherlData(String json) {
         Gson gson = new Gson();
         WeatherBean wBean = gson.fromJson(json,WeatherBean.class);
-        //weatherBean = gson.fromJson(json, WeatherBean.class);
         String statue = wBean.CityWeather.get(0).status;
         WeatherBean.Aqi aqi = wBean.CityWeather.get(0).aqi;
         cityWeather = wBean.CityWeather.get(0);
         if (statue.equalsIgnoreCase("ok") && aqi != null) {
+            WeatherForcastAdapter WeatherForcastAdapter = new WeatherForcastAdapter();
+            //2.3之后取出顶部底部的阴影，android:overScrollMode=”never”代码setOverScrollMode(View.OVER_SCROLL_NEVER);
+            lv_weather_forecastweather.setAdapter(WeatherForcastAdapter);
+
             weather_location = wBean.CityWeather.get(0).basic.city;
             CacheUtils.putString(getApplicationContext(),"currentCityName",weather_location);
             weather_pm = wBean.CityWeather.get(0).aqi.city.pm25;
@@ -114,9 +121,7 @@ public class WeatherActivity extends Activity {
             tv_weather_temperature.setText(tmp + "°C");
             Log.i("sdkdemo", "onSuccess");
             System.out.println(wBean.CityWeather.get(0).daily_forecast.get(1).tmp.max + "");
-            WeatherForcastAdapter WeatherForcastAdapter = new WeatherForcastAdapter();
-            //2.3之后取出顶部底部的阴影，android:overScrollMode=”never”代码setOverScrollMode(View.OVER_SCROLL_NEVER);
-            lv_weather_forecastweather.setAdapter(WeatherForcastAdapter);
+
             //获取城市的id，去掉前两位的字母，剩下的都是数字，可以通过switch判断，来设置背景
             int cityid = Integer.parseInt(wBean.CityWeather.get(0).basic.id.substring(2));
             int pm = wBean.CityWeather.get(0).aqi.city.pm25;
@@ -139,7 +144,7 @@ public class WeatherActivity extends Activity {
                     ll_weather_background.setBackgroundColor(Color.parseColor("#CD5C5C"));
                     break;
                 case 4://重紫
-                    ll_weather_background.setBackgroundColor(Color.parseColor("#303F9F"));
+                    ll_weather_background.setBackgroundColor(Color.parseColor("#727272"));
                     break;
                 case 5://严褐
                     ll_weather_background.setBackgroundColor(Color.parseColor("#727272"));
@@ -329,36 +334,27 @@ public class WeatherActivity extends Activity {
 
         @Override
         public int getCount() {
-            return 8;
+            return 6;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-            int windowHeight = wm.getDefaultDisplay().getHeight();
-            if (position == 0) {
-                TextView tvHeader = new TextView(getApplicationContext());
-                tvHeader.setText("Weather Forecast ");
-                Typeface face = Typeface.createFromAsset(getAssets(), "deftone stylus.ttf");
-                tvHeader.setTypeface(face);
-                tvHeader.setTextColor(getResources().getColor(R.color.colorWhite));
-                tvHeader.setTextSize(25);
-                tvHeader.setBackgroundColor(00000000);
-                //int dip =DpInterconvertPxUtils.px2dip(WeatherActivity.this,2000);
-
-                tvHeader.setPadding(0, windowHeight, 0, 0);
-                tvHeader.setGravity(Gravity.CENTER);
-                return tvHeader;
-            } else if (position == 7) {
-                TextView tvHeader = new TextView(getApplicationContext());
-                tvHeader.setText("天气转变 冷暖先知");
-                tvHeader.setTextColor(getResources().getColor(R.color.colorWhite));
-                tvHeader.setTextSize(15);
-                tvHeader.setBackgroundColor(00000000);
-                tvHeader.setPadding(0, 0, 0, windowHeight);
-                tvHeader.setGravity(Gravity.CENTER);
-                return tvHeader;
-            }
+//            WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+//            int windowHeight = wm.getDefaultDisplay().getHeight();
+//            if (position == 0) {
+//                TextView tvHeader = new TextView(getApplicationContext());
+//                tvHeader.setText("Weather Forecast ");
+//                Typeface face = Typeface.createFromAsset(getAssets(), "deftone stylus.ttf");
+//                tvHeader.setTypeface(face);
+//                tvHeader.setTextColor(getResources().getColor(R.color.colorWhite));
+//                tvHeader.setTextSize(25);
+//                tvHeader.setBackgroundColor(00000000);
+//                //int dip =DpInterconvertPxUtils.px2dip(WeatherActivity.this,2000);
+//
+//                tvHeader.setPadding(0, windowHeight, 0, 0);
+//                tvHeader.setGravity(Gravity.CENTER);
+//                 return tvHeader;
+//            }
             View view = null;
             ViewHolder viewHolder = null;
             if (convertView != null && convertView instanceof LinearLayout) {

@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_weather_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="2dp"
-    android:background="@color/Black">
-    <LinearLayout
-        android:id="@+id/ll_weather_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/weather_pm_a_background"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:orientation="horizontal">
+    android:background="@drawable/weather_pm_a_background"
+    android:orientation="vertical"
+    android:padding="2dp">
 
             <TextView
                 android:id="@+id/tv_weather_location"
@@ -25,95 +16,30 @@
                 android:text="@string/beijing"
                 android:textColor="@color/colorWhite"
                 android:textSize="20dip" />
-
             <Button
+                android:id="@+id/bt_weather_search"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dip"
                 android:layout_marginTop="18dip"
-                android:onClick="searchWeather"
                 android:background="@drawable/button"
+                android:onClick="searchWeather"
                 android:text="搜索"
                 android:textColor="@color/bt_textcolor_selector" />
-        </RelativeLayout>
 
-
-        <FrameLayout
+        <ListView
+            android:id="@+id/lv_weather_forecastweather"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="top"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_weather_pm"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Pm2.5:30\n良好"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/tv_weather_maxmin"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Max ↑35°\nMix ↓-5°"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/tv_weather_temperature"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="25°C"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="40dp" />
-
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_gravity="top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp">
-
-                <ListView
-                    android:id="@+id/lv_weather_forecastweather"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:cacheColorHint="#00000000"
-                    android:listSelector="#00000000"
-                    android:fadingEdge="none"
-                    android:scrollbars="none"
-                    android:overScrollMode="never"
-                    android:divider="#F8727272"
-                    android:dividerHeight="18dp">
-                </ListView>
-
-            </LinearLayout>
-        </FrameLayout>
-
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_below="@id/bt_weather_search"
+            android:cacheColorHint="#00000000"
+            android:divider="@color/weatherforcast_bg"
+            android:dividerHeight="18dp"
+            android:fadingEdge="none"
+            android:listSelector="#00000000"
+            android:overScrollMode="never"
+            android:scrollbars="none"></ListView>
 
 </RelativeLayout>

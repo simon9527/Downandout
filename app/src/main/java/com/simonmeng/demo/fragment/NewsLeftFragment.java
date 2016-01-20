@@ -67,14 +67,7 @@ public class NewsLeftFragment extends BaseFragment implements AdapterView.OnItem
         mListView.setOnItemClickListener(this);
         return testss;
     }
-    public void refreshListView(){
-        String selectedChannelID = CacheUtils.getString(mActivity, "had_selected_channel_id_array_key", null);
-        String[] arr=selectedChannelID.split(",");
-        channelIDList = Arrays.asList(arr);
-        NewsLeftAdapter adapter = new NewsLeftAdapter();
-        mListView.setAdapter(adapter);
-       // newsLeftAdapter.notifyDataSetChanged();
-    }
+
 
     public void setNewsDataList(List<NewsListBean.ChannelList> channelList) {
         //这个channelList还是有用的，把它传给Setting
