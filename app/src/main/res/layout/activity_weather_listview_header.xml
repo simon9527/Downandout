@@ -3,36 +3,47 @@
     android:id="@+id/ll_activity_weather_listview_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingTop="400dp"
+    android:orientation="vertical"
     android:paddingBottom="100dp">
-    <TextView
-            android:id="@+id/tv_weather_pm"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Pm2.5:30\n良好"
-            android:textColor="@color/colorWhite"
-            android:textSize="18dp" />
-        <TextView
-            android:id="@+id/tv_weather_maxmin"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Max ↑35°\nMix ↓-5°"
-            android:textColor="@color/colorWhite"
-            android:textSize="18dp" />
-        <TextView
-            android:id="@+id/tv_weather_temperature"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="25°C"
-            android:textColor="@color/colorWhite"
-            android:textSize="40dp" />
+    <ImageView
+        android:id="@+id/iv_weather_cond"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="center"
+        android:src="@mipmap/cond999"/>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <TextView
+           android:id="@+id/tv_weather_pm"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:gravity="center"
+           android:text="Pm2.5:30\n良好"
+           android:textColor="@color/colorWhite"
+           android:textSize="18dp" />
+       <TextView
+           android:id="@+id/tv_weather_maxmin"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1"
+           android:gravity="center"
+           android:text="Max ↑35°\nMix ↓-5°"
+           android:textColor="@color/colorWhite"
+           android:textSize="18dp" />
+       <TextView
+           android:id="@+id/tv_weather_temperature"
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_marginRight="5dp"
+           android:layout_weight="1"
+           android:gravity="center"
+           android:text="25°C"
+           android:textColor="@color/colorWhite"
+           android:textSize="40dp" />
+   </LinearLayout>
+
 </LinearLayout>
 

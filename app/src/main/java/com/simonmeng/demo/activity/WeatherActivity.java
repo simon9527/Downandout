@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -54,6 +55,8 @@ public class WeatherActivity extends Activity {
     TextView tv_weather_pm;
     @ViewInject(R.id.tv_weather_maxmin)
     TextView tv_weather_maxmin;
+    @ViewInject(R.id.iv_weather_cond)
+    ImageView condImageView;
 
 
     @Override
@@ -118,6 +121,24 @@ public class WeatherActivity extends Activity {
             tv_weather_pm.setText("Pm2.5:" + weather_pm + "\n" + weather_qlty);
             tv_weather_maxmin.setText("Max ↑" + max + "°\n  Mix ↓" + min + "°");
             tv_weather_temperature.setText(tmp + "°C");
+            int condD = wBean.CityWeather.get(0).daily_forecast.get(0).cond.code_d;
+            int cond = wBean.CityWeather.get(0).daily_forecast.get(0).cond.code;
+            if (condD != 0) {
+                String condName = "cond"+condD;
+                int resId = getResources().getIdentifier(condName, "mipmap" ,getBaseContext().getPackageName());
+                if(resId !=0){
+                    condImageView.setImageResource(resId);
+                }
+            }else if(cond !=0){
+                String condName = "cond"+cond;
+                int resId = getResources().getIdentifier(condName, "mipmap" ,getBaseContext().getPackageName());
+                if(resId!=0){
+                    condImageView.setImageResource(resId);
+                }
+            } else {
+                condImageView.setImageResource(R.mipmap.cond999);
+            }
+
             Log.i("sdkdemo", "onSuccess");
             System.out.println(wBean.CityWeather.get(0).daily_forecast.get(1).tmp.max + "");
 
@@ -162,9 +183,28 @@ public class WeatherActivity extends Activity {
             min = wBean.CityWeather.get(0).daily_forecast.get(0).tmp.min;
             tmp = wBean.CityWeather.get(0).now.tmp;
             tv_weather_location.setText(weather_location);
-            tv_weather_pm.setText("Pm2.5:" + weather_pm + "\n null");
+            tv_weather_pm.setText("Pm2.5: ---"  + "\n null");
             tv_weather_maxmin.setText("Max ↑" + max + "°\n  Mix ↓" + min + "°");
             tv_weather_temperature.setText(tmp + "°C");
+            int condD = wBean.CityWeather.get(0).daily_forecast.get(0).cond.code_d;
+            int cond = wBean.CityWeather.get(0).daily_forecast.get(0).cond.code;
+            if (condD != 0) {
+                String condName = "cond"+condD;
+                int resId = getResources().getIdentifier(condName, "mipmap" ,getBaseContext().getPackageName());
+                System.out.print(resId+"");
+                if(resId !=0){
+                    condImageView.setImageResource(resId);
+                }
+            }else if(cond !=0){
+                String condName = "cond"+cond;
+                int resId = getResources().getIdentifier(condName, "drawable" ,getBaseContext().getPackageName());
+                System.out.print(resId+"");
+                if(resId!=0){
+                    condImageView.setImageResource(resId);
+                }
+            } else {
+                condImageView.setImageResource(R.mipmap.cond999);
+            }
             Log.i("sdkdemo", "onSuccess");
             System.out.println(wBean.CityWeather.get(0).daily_forecast.get(1).tmp.max + "");
             WeatherForcastAdapter WeatherForcastAdapter = new WeatherForcastAdapter();
