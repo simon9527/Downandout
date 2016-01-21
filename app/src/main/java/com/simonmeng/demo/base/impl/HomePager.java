@@ -68,7 +68,6 @@ public class HomePager extends BaseRadioButtonPager implements AdapterView.OnIte
         ib_control_layout.setVisibility(View.GONE);
         TextView tvTest = new TextView(mContext);
         TypefaceUtils.setCustomTypeface(mContext, tv_base_radio_button_pager_header);
-        // TODO: 2016/1/16 先初始化界面，把listview添加上，然后再访问网络，给listview加数据
         View view = View.inflate(mContext, R.layout.news_home,null);
         ViewUtils.inject(this, view);
         frameLayoutContent.addView(view);
@@ -100,7 +99,6 @@ public class HomePager extends BaseRadioButtonPager implements AdapterView.OnIte
 
             @Override
             public void onFailure(HttpException e, String s) {
-                // TODO: 2016/1/15 获取失败应该处理空指针异常
             }
         });
     }
@@ -137,7 +135,6 @@ public class HomePager extends BaseRadioButtonPager implements AdapterView.OnIte
             }
             @Override
             public void onFailure(HttpException e, String s) {
-                // TODO: 2016/1/15 获取失败应该处理空指针异常
             }
         });
     }
@@ -269,7 +266,7 @@ public class HomePager extends BaseRadioButtonPager implements AdapterView.OnIte
 
         getNewsDetailData(Constants.httpNewsDetailUrl,inputChannelId);
 
-        // TODO: 2016/1/13 因为没有创建过个界面，就一个，所以，当调用此方法，传个position会出空指针，就是不管传进来谁，都取第一个
+        // 因为没有创建过个界面，就一个，所以，当调用此方法，传个position会出空指针，就是不管传进来谁，都取第一个
 //        BaseShowLeftHomePager pager = pagerList.get(0);
 //        View view = pager.getRootView();
 //        /**

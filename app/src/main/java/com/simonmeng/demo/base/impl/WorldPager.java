@@ -119,7 +119,6 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
             }
             @Override
             public void onFailure(HttpException e, String s) {
-                // TODO: 2016/1/15 获取失败应该处理空指针异常
             }
         });
     }

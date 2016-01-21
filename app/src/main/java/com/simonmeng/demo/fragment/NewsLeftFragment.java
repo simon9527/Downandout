@@ -113,7 +113,6 @@ public class NewsLeftFragment extends BaseFragment implements AdapterView.OnItem
         ((NewsActivity)mActivity).getSlidingMenu().toggle();
     }
 
-    // TODO: 2016/1/19 setting点击事件
     @Override
     public void onClick(View v) {
         switch (v.getId()){

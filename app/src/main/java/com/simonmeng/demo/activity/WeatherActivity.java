@@ -67,7 +67,6 @@ public class WeatherActivity extends Activity {
         ViewUtils.inject(this, weatherListviewHeader);
         lv_weather_forecastweather.addHeaderView(weatherListviewHeader);
 
-
         //设置字体，typeface字体。
         Typeface face = Typeface.createFromAsset(getAssets(), "deftone stylus.ttf");
         tv_weather_pm.setTypeface(face);
@@ -207,7 +206,6 @@ public class WeatherActivity extends Activity {
 
             @Override
             public void onFailure(HttpException e, String s) {
-                // TODO: 2016/1/15 获取失败应该处理空指针异常
 
             }
         });
