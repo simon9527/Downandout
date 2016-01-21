@@ -7,8 +7,22 @@
 
 
 
-    <ListView
-        android:id="@+id/lv_world_detail"
+    <!--<ListView-->
+        <!--android:id="@+id/lv_world_detail"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:cacheColorHint="#00000000"-->
+        <!--android:listSelector="#00000000"-->
+        <!--android:fadingEdge="none"-->
+        <!--android:scrollbars="none"-->
+        <!--android:overScrollMode="never"-->
+        <!--android:divider="@color/yahooGray"-->
+        <!--android:dividerHeight="10dp">-->
+    <!--</ListView>-->
+    <!-- 注释掉系统自带的，用自定义"带RefreshHeader的"ListView-->
+    <com.simonmeng.demo.customview.RefreshListView
+        android:id="@+id/rlv_world_detail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -19,7 +33,7 @@
         android:overScrollMode="never"
         android:divider="@color/yahooGray"
         android:dividerHeight="10dp">
+    </com.simonmeng.demo.customview.RefreshListView>
 
-    </ListView>
 
 </LinearLayout>

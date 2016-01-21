@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +34,7 @@ import com.simonmeng.demo.R;
 import com.simonmeng.demo.activity.CelebrityDetailActivity;
 import com.simonmeng.demo.activity.WorldNewsDetailActivity;
 import com.simonmeng.demo.base.BaseRadioButtonPager;
+import com.simonmeng.demo.customview.RefreshListView;
 import com.simonmeng.demo.domain.NewsDetailBean;
 import com.simonmeng.demo.utils.CacheUtils;
 import com.simonmeng.demo.utils.Constants;
@@ -45,15 +45,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener {
+public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener, RefreshListView.OnRefreshListener {
     @ViewInject(R.id.vp_world_top_pic)
     private ViewPager topPicViewPager;
     @ViewInject(R.id.tv_world_top_desc)
     private TextView topDescTextView;
     @ViewInject(R.id.ll_world_top_points)
     private LinearLayout pointsLinearLayout;
-    @ViewInject(R.id.lv_world_detail)
-    private ListView worldDetailListView;
+    @ViewInject(R.id.rlv_world_detail)
+    private RefreshListView worldDetailListView;
     @ViewInject(R.id.select_point)
     private View selectPoint;
     private List<NewsDetailBean.Contentlist> contentlist;
@@ -81,7 +81,9 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
 
         View newsHeader = View.inflate(mContext,R.layout.news_world_carousel_header,null);
         ViewUtils.inject(this, newsHeader);
-        worldDetailListView.addHeaderView(newsHeader);
+        //worldDetailListView.addHeaderView(newsHeader);
+         worldDetailListView.customListViewAddHeader(newsHeader);
+         worldDetailListView.setOnRefreshListener(this);
         //刚开始吧drawPoint方法放到了processData中，致使每次调用processData都画一遍，画了很多points
         drawPoint(AMOUNTOFTOPPIC);
         frameLayoutContent.addView(view);
@@ -116,9 +118,11 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
                     System.out.print(responseInfo.result);
                     processData(responseInfo.result);
                 }
+                worldDetailListView.OnRefreshDataFinish();
             }
             @Override
             public void onFailure(HttpException e, String s) {
+                worldDetailListView.OnRefreshDataFinish();
             }
         });
     }
@@ -167,6 +171,19 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         bundle.putSerializable("content", list);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
+    }
+
+    @Override
+    public void onPullDownRefresh() {
+        String httpUrl = Constants.httpNewsDetailUrl+"5572a109b3cdc86cf39001e6";
+        getNetworkData(httpUrl,"5572a109b3cdc86cf39001e6");
+    }
+
+    @Override
+    public void onLoadingMore() {
+        String httpUrl = Constants.httpNewsDetailUrl+"5572a109b3cdc86cf39001e6&page=3";
+        getNetworkData(httpUrl,"5572a109b3cdc86cf39001e6");
+
     }
 
 

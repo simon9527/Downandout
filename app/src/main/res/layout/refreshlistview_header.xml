@@ -13,8 +13,7 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
+            android:paddingLeft="10dp"
             android:layout_margin="10dip" >
 
             <ImageView
@@ -53,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
-                android:text="最后刷新时间: 1990-09-09 09:09:09"
+                android:text="上次刷新: 1990-09-09 09:09:09"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
         </LinearLayout>

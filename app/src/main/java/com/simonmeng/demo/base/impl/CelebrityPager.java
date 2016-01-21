@@ -99,7 +99,7 @@ public class CelebrityPager extends BaseRadioButtonPager implements AdapterView.
                     }
 
                 case ImageCacheUtils.FAILED:
-                    Toast.makeText(mContext, "图片请求失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "图片加载中...", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
