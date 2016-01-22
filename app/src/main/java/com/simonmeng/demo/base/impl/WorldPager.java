@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
@@ -39,6 +40,7 @@ import com.simonmeng.demo.domain.NewsDetailBean;
 import com.simonmeng.demo.utils.CacheUtils;
 import com.simonmeng.demo.utils.Constants;
 import com.simonmeng.demo.utils.DpInterconvertPxUtils;
+import com.simonmeng.demo.utils.ImageCacheUtils;
 import com.simonmeng.demo.utils.TypefaceUtils;
 
 import java.util.ArrayList;
@@ -56,6 +58,10 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
     private RefreshListView worldDetailListView;
     @ViewInject(R.id.select_point)
     private View selectPoint;
+
+
+    private int pageNum = 1;
+    private NewsListViewAdapter newsListViewAdapter;
     private List<NewsDetailBean.Contentlist> contentlist;
     private BitmapUtils bitmapUtils;
     private static final int AMOUNTOFTOPPIC = 5;
@@ -63,9 +69,36 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
     private int selectPointBeginLeft;
     private InternalHandlerForImageCarousel mHandler;
     private int currentSelectTopPicItem;
+    private ImageCacheUtils imageCacheUtils;
+    private InternalHandler handler;
+    class InternalHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case ImageCacheUtils.SUCCESS:
+                    Bitmap bm = (Bitmap) msg.obj;
+                    int tag = msg.arg1;
+                    ImageView listImageView= (ImageView) worldDetailListView.findViewWithTag(tag);
+                    if(listImageView!=null){
+                        listImageView.setImageBitmap(bm);
+                    }
+                    break;
+                case ImageCacheUtils.FAILED:
+                    Toast.makeText(mContext, "图片加载中...", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
 
     public WorldPager(Context context) {
         super(context);
+        handler = new InternalHandler();
+        imageCacheUtils = new ImageCacheUtils(mContext, handler);
+
         bitmapUtils = new BitmapUtils(mContext);
         bitmapUtils.configDefaultBitmapConfig(Bitmap.Config.ARGB_4444);
     }
@@ -80,9 +113,11 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         ViewUtils.inject(this, view);
 
         View newsHeader = View.inflate(mContext,R.layout.news_world_carousel_header,null);
-        ViewUtils.inject(this, newsHeader);
+         ViewUtils.inject(this, newsHeader);
         //worldDetailListView.addHeaderView(newsHeader);
          worldDetailListView.customListViewAddHeader(newsHeader);
+         worldDetailListView.setEnabledLoadMoreRefresh(true);
+         worldDetailListView.setEnabledPullDownRefresh(true);
          worldDetailListView.setOnRefreshListener(this);
         //刚开始吧drawPoint方法放到了processData中，致使每次调用processData都画一遍，画了很多points
         drawPoint(AMOUNTOFTOPPIC);
@@ -148,7 +183,7 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
         mHandler.removeCallbacksAndMessages(null);
         mHandler.postDelayed(new AutoSwitchPagerRunnable(), 5000);
 
-        NewsListViewAdapter newsListViewAdapter = new NewsListViewAdapter();
+        newsListViewAdapter = new NewsListViewAdapter();
         worldDetailListView.setAdapter(newsListViewAdapter);
         worldDetailListView.setOnItemClickListener(this);
     }
@@ -181,8 +216,39 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
 
     @Override
     public void onLoadingMore() {
-        String httpUrl = Constants.httpNewsDetailUrl+"5572a109b3cdc86cf39001e6&page=3";
-        getNetworkData(httpUrl,"5572a109b3cdc86cf39001e6");
+        pageNum = pageNum+1;
+
+        String httpUrl = Constants.httpNewsDetailUrl+"5572a109b3cdc86cf39001e6&page="+pageNum;
+        HttpUtils utils = new HttpUtils();
+        RequestParams params = new RequestParams();
+        params.addHeader("apikey", Constants.myApiKey);
+        utils.send(HttpRequest.HttpMethod.GET, httpUrl, params, new RequestCallBack<String>() {
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                //非空判断，只用返回的结果有正确的数值才能存放在sharepreference中，但是一般错误也会返回一些信息，这里就简单地通过长度判断一下
+                if(responseInfo.result.length()>200){
+//                    不用存缓存了，缓存存page，够用户一开始打开看就够了
+//                    String id = "5572a109b3cdc86cf39001e6";
+//                    CacheUtils.putString(mContext, id, responseInfo.result);
+                    Gson gson = new Gson();
+                    NewsDetailBean newsDetailBean = gson.fromJson(responseInfo.result, NewsDetailBean.class);
+                    //注意集合与集合相加：addAll
+                    contentlist.addAll(newsDetailBean.showapi_res_body.pagebean.contentlist);
+                    newsListViewAdapter.notifyDataSetChanged();
+
+//                    topDescTextView.setText(contentlist.get(0).title);
+//                    WorldTopPicAdapter worldTopPicAdapter = new WorldTopPicAdapter();
+//                    topPicViewPager.setAdapter(worldTopPicAdapter);
+//                    //给viewpager加一个PageChange监听这样可以控制小绿点和它同步滑动
+//                    topPicViewPager.setOnPageChangeListener(this);
+                }
+                worldDetailListView.OnRefreshDataFinish();
+            }
+            @Override
+            public void onFailure(HttpException e, String s) {
+                worldDetailListView.OnRefreshDataFinish();
+            }
+        });
 
     }
 
@@ -216,7 +282,15 @@ public class WorldPager extends BaseRadioButtonPager implements ViewPager.OnPage
             }
             newsDetailViewHolder.tv_news_detail_title.setText(contentlist.get(position + AMOUNTOFTOPPIC).title);
             if((contentlist.get(position+AMOUNTOFTOPPIC).imageurls).size()!=0){
-                bitmapUtils.display(newsDetailViewHolder.iv_news_detail_image,contentlist.get(position+AMOUNTOFTOPPIC).imageurls.get(0).url);
+                String url = contentlist.get(position + AMOUNTOFTOPPIC).imageurls.get(0).url;
+                Bitmap bitMap = imageCacheUtils.getBitmapFromUrl(url,(position + AMOUNTOFTOPPIC));
+                if(bitMap!=null){
+                    newsDetailViewHolder.iv_news_detail_image.setImageBitmap(bitMap);
+                }else {
+                    newsDetailViewHolder.iv_news_detail_image.setImageResource(R.mipmap.news_toppic_default);
+                }
+
+               // bitmapUtils.display(newsDetailViewHolder.iv_news_detail_image,contentlist.get(position+AMOUNTOFTOPPIC).imageurls.get(0).url);
             }else{
                 newsDetailViewHolder.iv_news_detail_image.setImageResource(R.mipmap.news_default);
             }

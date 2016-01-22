@@ -9,17 +9,17 @@ import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.etsy.android.grid.StaggeredGridView;
 import com.simonmeng.demo.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class RefreshListView extends ListView implements AbsListView.OnScrollListener {
+public class LoadRefreshListView extends StaggeredGridView implements AbsListView.OnScrollListener {
     private LinearLayout mHeaderView;
     private View beAddHeaderView;
     private int downY = -1;
@@ -43,12 +43,12 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
     private boolean isEnabledPullDownRefresh = false; // 是否启用下拉刷新的功能
     private boolean isEnabledLoadMoreRefresh = false;  // 是否启用加载更多的功能
 
-    public RefreshListView(Context context){
+    public LoadRefreshListView(Context context){
         super(context);
         initPullDownHeaderView();
         initLoadMoreFooterView();
     }
-    public RefreshListView(Context context,AttributeSet attrs){
+    public LoadRefreshListView(Context context, AttributeSet attrs){
         super(context,attrs);
         initPullDownHeaderView();
         initLoadMoreFooterView();

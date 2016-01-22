@@ -3,45 +3,58 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/colorWhite">
-    <ListView
-        android:id="@+id/lv_celebrity"
+    <!--<ListView-->
+    <!--android:id="@+id/lv_celebrity"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:background="@color/yahooGray"-->
+    <!--android:listSelector="#00000000"-->
+    <!--android:scrollbars="none"-->
+    <!--android:stretchMode="columnWidth"-->
+    <!--android:fadingEdge="none"-->
+    <!--android:cacheColorHint="@android:color/transparent"-->
+    <!--android:divider="@android:color/transparent"-->
+    <!--android:fadingEdgeLength="0dp"-->
+    <!--android:overScrollMode="never"></ListView>-->
+    <com.simonmeng.demo.customview.RefreshListView
+        android:id="@+id/rlv_celebrity"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/yahooGray"
-        android:listSelector="#00000000"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:fadingEdge="none"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@android:color/transparent"
+        android:fadingEdge="none"
         android:fadingEdgeLength="0dp"
-        android:overScrollMode="never"></ListView>
-
+        android:listSelector="#00000000"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"></com.simonmeng.demo.customview.RefreshListView>
 
 
     <GridView
         android:id="@+id/gv_celebrity"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:numColumns="2"
-        android:padding="6dp"
-        android:gravity="center"
-        android:horizontalSpacing="3dp"
-        android:verticalSpacing="3dp"
-        android:listSelector="#00000000"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
         android:fadingEdge="none"
         android:fadingEdgeLength="0dp"
-        android:overScrollMode="never">
+        android:gravity="center"
+        android:horizontalSpacing="3dp"
+        android:listSelector="#00000000"
+        android:numColumns="2"
+        android:overScrollMode="never"
+        android:padding="6dp"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="3dp">
 
     </GridView>
 
-    <com.etsy.android.grid.StaggeredGridView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.etsy.android.grid.StaggeredGridView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:item_margin="0dp"
-        app:column_count="2" />
+        app:column_count="2"
+        app:item_margin="0dp" />
+
+
 </RelativeLayout>

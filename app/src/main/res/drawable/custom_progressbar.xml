@@ -3,10 +3,11 @@
     android:fromDegrees="0"
     android:pivotX="50%"
     android:pivotY="50%"
-    android:toDegrees="360" >
+    android:toDegrees="360"
+    android:duration="5000">
 
     <shape
-        android:innerRadiusRatio="2.5"
+        android:innerRadiusRatio="5"
         android:shape="ring"
         android:thicknessRatio="15"
         android:useLevel="false" >
